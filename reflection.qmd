@@ -63,3 +63,11 @@ Building this portfolio has also reinforced something I believe deeply: **high s
 - Contribute to open source risk analytics tools
 - Apply for risk analytics roles at fintechs in Ireland and the UK
 - Keep building in public — this portfolio will continue to grow beyond this module
+
+---
+
+## Further learning
+
+A talk that has shaped how I think about the future of credit risk and fintech:
+
+{{< video https://www.youtube.com/watch?v=Y5Z9URmcNfI >}}
