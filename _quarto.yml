@@ -20,7 +20,7 @@ website:
         href: contact.qmd
     right:
       - text: "CV"
-        href: cv/wendy-lucio-cv.pdf
+        href: cv/WendyLucioCV.pdf
         target: _blank
       - icon: github
         href: https://github.com/WendyLucio

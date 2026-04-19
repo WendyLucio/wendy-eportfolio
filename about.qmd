@@ -49,3 +49,46 @@ Worked in the Collections Risk area across multiple products:
 I'm fascinated by how **fintechs like Revolut and Nubank** are disrupting traditional banking. Unlike legacy banks, they use data in real time to make smarter, faster decisions. I want to be part of that transformation — bringing the rigour of traditional risk management into the agility of the fintech world.
 
 Living and studying in Dublin has reinforced my belief that the best insights come from diverse perspectives. I enjoy leading teams, learning from different profiles, and holding myself to high standards in everything I do.
+
+---
+
+## My path in numbers
+
+| Milestone | Detail |
+|-----------|--------|
+| 🎓 Degree | Actuarial Science, UNAM |
+| 📊 Years in banking | 7+ years |
+| 🏦 Banks | Scotiabank, Banorte |
+| 👥 Team size led | 5 analysts |
+| 🌍 Countries lived | Mexico, Ireland |
+| 📚 Current | MSc Business Analytics, DCU |
+
+---
+
+## My workflow
+
+```{mermaid}
+flowchart LR
+    A[Business Problem] --> B[Data Collection]
+    B --> C[Exploratory Analysis]
+    C --> D[Model Development]
+    D --> E[Validation]
+    E --> F[Business Insights]
+    F --> G[Decision & Action]
+```
+
+---
+
+## Currently learning
+
+- [ ] Advanced ML — survival analysis, gradient boosting
+- [ ] Cloud platforms — AWS, GCP for data pipelines  
+- [x] Quarto & web publishing
+- [x] Git & version control
+- [x] Interactive visualisations with Plotly
+
+---
+
+::: {.callout-tip title="Fun fact"}
+Before moving to Dublin I had never lived outside Mexico City. Now I navigate Irish weather, GAA conversations, and a Master's degree — all at the same time 🇮🇪
+:::
