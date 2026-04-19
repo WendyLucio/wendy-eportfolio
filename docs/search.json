@@ -42,6 +42,13 @@
     "text": "What comes next\n\nDeepen my machine learning knowledge — particularly in survival analysis and credit loss forecasting\nContribute to open source risk analytics tools\nApply for risk analytics roles at fintechs in Ireland and the UK\nKeep building in public — this portfolio will continue to grow beyond this module"
   },
   {
+    "objectID": "reflection.html#further-learning",
+    "href": "reflection.html#further-learning",
+    "title": "Reflection",
+    "section": "Further learning",
+    "text": "Further learning\nA talk that has shaped how I think about the future of credit risk and fintech:"
+  },
+  {
     "objectID": "projects/list/credit-risk-scorecard.html",
     "href": "projects/list/credit-risk-scorecard.html",
     "title": "Credit Risk Scorecard Model",
@@ -54,6 +61,13 @@
     "title": "Credit Risk Scorecard Model",
     "section": "",
     "text": "Credit scoring is one of the most critical applications of machine learning in finance. In this project, I build a credit risk scorecard to predict the probability of default (PD) for loan applicants — a core task in any retail banking risk function.\n\n\n\n\n\n\nNote\n\n\n\nThis project draws on my professional experience managing credit card portfolios at Banorte and Scotiabank Mexico, where scorecard models were central to risk strategy."
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#the-mathematics-behind-credit-scoring",
+    "href": "projects/list/credit-risk-scorecard.html#the-mathematics-behind-credit-scoring",
+    "title": "Credit Risk Scorecard Model",
+    "section": "The mathematics behind credit scoring",
+    "text": "The mathematics behind credit scoring\nThe probability of default is estimated using the logistic function:\nP(Default) = 1 / (1 + exp(-(B0 + B1*X1 + B2*X2 + ... + Bn*Xn)))\nWhere \\(X_i\\) are the risk features and \\(\\beta_i\\) are the model coefficients estimated from historical data."
   },
   {
     "objectID": "projects/list/credit-risk-scorecard.html#objectives",

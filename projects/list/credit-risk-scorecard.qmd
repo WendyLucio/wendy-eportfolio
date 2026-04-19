@@ -16,13 +16,17 @@ This project draws on my professional experience managing credit card portfolios
 :::
 
 ---
+
 ## The mathematics behind credit scoring
 
 The probability of default is estimated using the **logistic function**:
 
-$$P(Default) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n)}}$$
+```math
+P(Default) = 1 / (1 + exp(-(B0 + B1*X1 + B2*X2 + ... + Bn*Xn)))
+```
 
 Where $X_i$ are the risk features and $\beta_i$ are the model coefficients estimated from historical data.
+
 ---
 
 ## Objectives
