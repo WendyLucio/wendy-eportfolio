@@ -1,7 +1,37 @@
 ---
-title: "Wendy Lucio | Risk & Analytics"
+title: "Wendy Lucio"
+image: images/LinkedInPicture.jpg
+about:
+  template: trestles
+  image-width: 14em
+  image-shape: round
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/wendymlp
+      target: _blank
+    - icon: github
+      text: GitHub
+      href: https://github.com/WendyLucio
+      target: _blank
+    - icon: envelope
+      text: Email
+      href: mailto:wendy.m.lucio@gmail.com
 ---
 
-This is a Quarto website.
+## Hi, I'm Wendy 👋
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+I'm a *Credit Risk & Analytics professional* with 6+ years of experience in the Mexican banking industry, currently pursuing an *MSc in Business Analytics at DCU* in Dublin, Ireland.
+
+My background spans credit risk management, portfolio analytics, and data-driven decision making across top Mexican banks including **Scotiabank** and **Banorte**, where I led a team as **Deputy Director of Credit Risk**.
+
+I combine strong technical skills — Python, R, SAS, SQL, Power BI — with deep business knowledge, and I'm passionate about how *fintechs like Revolut and Nubank* are reshaping the financial industry.
+
+---
+
+### What I do
+
+- 📊 *Credit Risk Modelling* — scorecards, PD models, vintage analysis
+- 🤖 *Machine Learning* — classification, clustering, predictive analytics
+- 📈 *Portfolio Analytics* — TDC, Auto, Personal Loans, Mortgage
+- 👥 *Team Leadership* — managed cross-functional teams of 5

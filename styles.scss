@@ -1,4 +1,4 @@
-/-- scss:defaults --/
+/*-- scss:defaults --*/
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -13,7 +13,7 @@ $headings-color: #0f172a;
 $primary: #3b82f6;
 $border-radius: 8px;
 
-/-- scss:rules --/
+/*-- scss:rules --*/
 
 h1, h2, h3 {
   font-weight: 600;
