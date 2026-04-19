@@ -3,7 +3,7 @@ title: "Credit Risk Scorecard Model"
 description: "A machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset."
 author: "Wendy Lucio"
 date: "2026-04-01"
-image: "../../images/project1.jpg"
+image: "https://images.unsplash.com/photo-1666875753105-c63a6f3bdc86?w=800"
 categories: [Machine Learning, Credit Risk, Python]
 ---
 

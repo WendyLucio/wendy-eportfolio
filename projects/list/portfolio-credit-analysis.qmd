@@ -3,7 +3,7 @@ title: "Credit Card Portfolio Analysis"
 description: "An interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation."
 author: "Wendy Lucio"
 date: "2026-03-15"
-image: "../../images/project2.jpg"
+image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=800"
 categories: [Portfolio Analytics, Credit Risk, Python, Plotly]
 ---
 
