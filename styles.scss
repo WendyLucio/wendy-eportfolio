@@ -1,0 +1,50 @@
+/-- scss:defaults --/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+$font-family-sans-serif: 'Inter', sans-serif;
+
+$navbar-bg: #0f172a;
+$navbar-fg: #e2e8f0;
+$body-bg: #ffffff;
+$body-color: #1e293b;
+$link-color: #3b82f6;
+$headings-color: #0f172a;
+$primary: #3b82f6;
+$border-radius: 8px;
+
+/-- scss:rules --/
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.navbar {
+  border-bottom: 1px solid #1e293b;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #1d4ed8;
+}
+
+.card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
