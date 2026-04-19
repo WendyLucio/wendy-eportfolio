@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wendy Lucio">
+<meta name="dcterms.date" content="2026-03-15">
+<meta name="description" content="An interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation.">
+
+<title>Credit Card Portfolio Analysis – Wendy Lucio | Risk &amp; Analytics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-06b13a12f366e09e76a3b0d78157b3c5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+<script>
+
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+
+</script>
+
+<script type="module">import "https://cdn.plot.ly/plotly-3.5.0.min"</script>
+
+
+
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Wendy Lucio | Risk &amp; Analytics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/wendy-lucio-cv.pdf" target="_blank"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/WendyLucio" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/wendymlp" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#data-simulation" id="toc-data-simulation" class="nav-link" data-scroll-target="#data-simulation">Data simulation</a></li>
+  <li><a href="#vintage-analysis" id="toc-vintage-analysis" class="nav-link" data-scroll-target="#vintage-analysis">Vintage analysis</a></li>
+  <li><a href="#roll-rate-matrix" id="toc-roll-rate-matrix" class="nav-link" data-scroll-target="#roll-rate-matrix">Roll rate matrix</a></li>
+  <li><a href="#risk-segmentation" id="toc-risk-segmentation" class="nav-link" data-scroll-target="#risk-segmentation">Risk segmentation</a></li>
+  <li><a href="#portfolio-summary" id="toc-portfolio-summary" class="nav-link" data-scroll-target="#portfolio-summary">Portfolio summary</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key findings</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Credit Card Portfolio Analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Portfolio Analytics</div>
+    <div class="quarto-category">Credit Risk</div>
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Plotly</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wendy Lucio </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Portfolio monitoring is the backbone of any credit risk function. In this project I replicate the type of analysis I performed daily as <strong>Deputy Director of Credit Risk at Banorte</strong> — tracking portfolio health, identifying deterioration signals, and segmenting risk across a credit card book.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Vintage analysis and roll rate matrices are standard tools in retail banking risk management. This project demonstrates their implementation in Python with interactive Plotly visualisations.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="objectives" class="level2">
+<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
+<ul>
+<li>Build a <strong>vintage analysis</strong> to track cohort default curves over time</li>
+<li>Construct a <strong>roll rate matrix</strong> to measure migration between delinquency buckets</li>
+<li>Segment the portfolio by <strong>risk profile</strong> using clustering</li>
+<li>Create <strong>interactive dashboards</strong> with Plotly</li>
+</ul>
+<hr>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="2be44c89" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="data-simulation" class="level2">
+<h2 class="anchored" data-anchor-id="data-simulation">Data simulation</h2>
+<div id="018c3372" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a credit card portfolio with 12 monthly cohorts</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n_cohorts <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n_accounts <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> []</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cohort <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_cohorts <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    accounts <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'cohort'</span>: cohort,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'account_id'</span>: <span class="bu">range</span>((cohort<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>n_accounts, cohort<span class="op">*</span>n_accounts),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'credit_limit'</span>: np.random.choice([<span class="dv">10000</span>,<span class="dv">20000</span>,<span class="dv">30000</span>,<span class="dv">50000</span>], n_accounts, p<span class="op">=</span>[<span class="fl">0.4</span>,<span class="fl">0.3</span>,<span class="fl">0.2</span>,<span class="fl">0.1</span>]),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'balance'</span>: np.random.uniform(<span class="fl">0.1</span>, <span class="fl">0.9</span>, n_accounts),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'age'</span>: np.random.randint(<span class="dv">25</span>, <span class="dv">60</span>, n_accounts),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'income'</span>: np.random.normal(<span class="dv">50000</span>, <span class="dv">15000</span>, n_accounts).clip(<span class="dv">20000</span>, <span class="dv">120000</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'credit_score'</span>: np.random.normal(<span class="dv">660</span>, <span class="dv">70</span>, n_accounts).clip(<span class="dv">400</span>, <span class="dv">850</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    cohorts.append(accounts)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>portfolio <span class="op">=</span> pd.concat(cohorts, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>portfolio[<span class="st">'balance_amount'</span>] <span class="op">=</span> portfolio[<span class="st">'credit_limit'</span>] <span class="op">*</span> portfolio[<span class="st">'balance'</span>]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Portfolio: </span><span class="sc">{</span><span class="bu">len</span>(portfolio)<span class="sc">:,}</span><span class="ss"> accounts across </span><span class="sc">{</span>n_cohorts<span class="sc">}</span><span class="ss"> cohorts"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>portfolio.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Portfolio: 2,400 accounts across 12 cohorts</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cohort</th>
+<th data-quarto-table-cell-role="th">account_id</th>
+<th data-quarto-table-cell-role="th">credit_limit</th>
+<th data-quarto-table-cell-role="th">balance</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">income</th>
+<th data-quarto-table-cell-role="th">credit_score</th>
+<th data-quarto-table-cell-role="th">balance_amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>0</td>
+<td>10000</td>
+<td>0.613625</td>
+<td>54</td>
+<td>66840.165272</td>
+<td>554.806449</td>
+<td>6136.253169</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>1</td>
+<td>1</td>
+<td>50000</td>
+<td>0.167312</td>
+<td>41</td>
+<td>28382.063593</td>
+<td>641.748538</td>
+<td>8365.598600</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>1</td>
+<td>2</td>
+<td>30000</td>
+<td>0.229303</td>
+<td>44</td>
+<td>48156.330402</td>
+<td>581.220669</td>
+<td>6879.089138</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>1</td>
+<td>3</td>
+<td>20000</td>
+<td>0.818843</td>
+<td>49</td>
+<td>48870.445179</td>
+<td>649.567433</td>
+<td>16376.867016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>1</td>
+<td>4</td>
+<td>10000</td>
+<td>0.585143</td>
+<td>46</td>
+<td>33481.221427</td>
+<td>659.534258</td>
+<td>5851.432477</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="vintage-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="vintage-analysis">Vintage analysis</h2>
+<div id="08dd8f32" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate cumulative default rates by cohort and month-on-book</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>months_on_book <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>vintage_data <span class="op">=</span> []</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cohort <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_cohorts <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    base_default <span class="op">=</span> np.random.uniform(<span class="fl">0.02</span>, <span class="fl">0.06</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mob <span class="kw">in</span> months_on_book:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        cum_default <span class="op">=</span> base_default <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> np.exp(<span class="op">-</span><span class="fl">0.3</span> <span class="op">*</span> mob)) <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.002</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        vintage_data.append({</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">'cohort'</span>: <span class="ss">f'Cohort </span><span class="sc">{</span>cohort<span class="sc">:02d}</span><span class="ss">'</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mob'</span>: mob,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">'cum_default_rate'</span>: <span class="bu">max</span>(<span class="dv">0</span>, cum_default)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>vintage_df <span class="op">=</span> pd.DataFrame(vintage_data)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.line(vintage_df, x<span class="op">=</span><span class="st">'mob'</span>, y<span class="op">=</span><span class="st">'cum_default_rate'</span>, color<span class="op">=</span><span class="st">'cohort'</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>              title<span class="op">=</span><span class="st">'Vintage Analysis — Cumulative Default Rate by Cohort'</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>              labels<span class="op">=</span>{<span class="st">'mob'</span>: <span class="st">'Months on Book'</span>, <span class="st">'cum_default_rate'</span>: <span class="st">'Cumulative Default Rate'</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'cohort'</span>: <span class="st">'Cohort'</span>},</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>              color_discrete_sequence<span class="op">=</span>px.colors.sequential.Blues_r)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    yaxis_tickformat<span class="op">=</span><span class="st">'.1%'</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    font_family<span class="op">=</span><span class="st">'Inter'</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(orientation<span class="op">=</span><span class="st">'v'</span>, x<span class="op">=</span><span class="fl">1.02</span>, y<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    hovermode<span class="op">=</span><span class="st">'x unified'</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(showgrid<span class="op">=</span><span class="va">True</span>, gridcolor<span class="op">=</span><span class="st">'#f1f5f9'</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>fig.update_yaxes(showgrid<span class="op">=</span><span class="va">True</span>, gridcolor<span class="op">=</span><span class="st">'#f1f5f9'</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="f78af899-98ff-4a1d-a5fb-76fdea77750a" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("f78af899-98ff-4a1d-a5fb-76fdea77750a")) {                    Plotly.newPlot(                        "f78af899-98ff-4a1d-a5fb-76fdea77750a",                        [{"hovertemplate":"Cohort=Cohort 01\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 01","line":{"color":"rgb(8,48,107)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 01","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"N7tVKzLpez+MIbpkHy6LP43wTidSkY4\u002fh0sPcY0glT8fEl5MncOWP+cqP0SBypk\u002fGJ6MVserlz+Fwxin0ISZP78BBj\u002f8\u002fZ0\u002fquCeWSGwmT9FeU\u002fv2RCZP9L5gncL55o\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 02\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 02","line":{"color":"rgb(8,81,156)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 02","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"sswUZIsDgj9CdNmKQFCTP+eUv4YHKps\u002f67s53yQ2nT+qn55l\u002ffagP6Pf6mAHiaI\u002fY\u002fBsE3eAoz\u002ft\u002fdCxapyhP2dDB2g0z6Q\u002fh3F3bjwxoz9yhH3MTvWkP+AfZfPw8qQ\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 03\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 03","line":{"color":"rgb(33,113,181)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 03","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"5hxHtRqWkT9yefWqWReZP5sYasNWNKE\u002fH6B2VOTXoz+F2KfUp+inPz+KvVLI9ag\u002fxc3VhDQ4qj\u002fWIIEfyDqsP1uc5CzCxas\u002fiaFENdvjrT91tP\u002f5q2qtP0GVIXsLF60\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 04\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 04","line":{"color":"rgb(66,146,198)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 04","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"0qGkkRFygz8Ida42CYOSP37MQgfVFZo\u002fhvOhbuHanz\u002fSpZbj8qegP2QTxu7PcqM\u002f9JMWziHEoj\u002ffwsM4vniiPyDI\u002fL+afaU\u002fB2LNVBgApj9I9HhcXLKmP2T46tRMzaM\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 05\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 05","line":{"color":"rgb(107,174,214)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 05","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"R+LCc13Tiz\u002f2n88xx+eXP1v9k27jL6A\u002fGA\u002ftL\u002f43oj9aXGpXo76lPztjFWMThqg\u002f3aMxM16UqD+cjskM672nPxFJAM8R+6k\u002fsMiRLLwwqj8FOF3aFs2qP1UGc4AwxKk\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 06\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 06","line":{"color":"rgb(158,202,225)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 06","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"ZwqGvc+thD+nM7RS\u002fiKaPyZTRqYMVqE\u002f1DQ9OjQJpD8lWGGqJy6nP8vEV7Wa8qc\u002faCT4\u002fyf9qD++Fg+5AFmrPyakw+w0iqo\u002fEh4SgXiIqz8wBzHpSsKsP7vjgwzPFKs\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 07\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 07","line":{"color":"rgb(198,219,239)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 07","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"3CpVPEuTjT9l3xrwFK+UP4VeThEmKZw\u002fV41vsl+Bnj\u002ftK9FXfpigP9qmLK4MxKM\u002fcMdLrHE\u002fpT+X7bUrvh2mP+useXndV6c\u002fnyfJBqMOqj+aXUrRD9SmP05hBmgxYqY\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 08\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 08","line":{"color":"rgb(222,235,247)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 08","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"HCSCRWeBhj\u002fOCLjb4g2SP5La4jx4i6A\u002fr7nynLENnT\u002fZ9wV0F3qjPz\u002flVnNbsqI\u002fbLCLj0YApD\u002f4tm8O0u2mP8cNQIHWpKU\u002fJE7+GnJ9pz+nBZNfsYuoP7OHAc1Qkac\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 09\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 09","line":{"color":"rgb(247,251,255)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 09","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"Wy2OTGfViz+77UZJr1KXPwARNU55O5s\u002fcM1YrR+onj8k1Pf9E2WhP+m\u002fWVSbbKI\u002fjTd3IoPPoT+N4YssdMKhP\u002f3GPvnutqQ\u002fLi\u002f4H\u002fxSpj\u002fLC3remGalP6NELmg9uaI\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 10\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 10","line":{"color":"rgb(8,48,107)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 10","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"3220rEkyjD\u002f33w79RWSaP6g1CZ+0fqA\u002fa6+W1lDboj\u002f8UWSckeWlP0wpCHAxW6c\u002frxTFCrbEpj\u002fnxV20ZdSoP\u002fyV9Bqd1qg\u002fgrKjnhbuqD9xcnhUJXarP+2hO\u002fzJkKo\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 11\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 11","line":{"color":"rgb(8,81,156)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 11","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"rzLJX60ofT82rJNO2TGQP\u002f9lbc2H1ZQ\u002fJP4F39OFlD\u002f+PZhLkb6bP+p7DywUHpo\u002fru\u002fAlLkKoD9\u002f\u002fT5zRXedP0qd19AP5aA\u002fi234Z9U5oD\u002fgRwkLmDOgPy5\u002fgAR8RqE\u002f"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Cohort=Cohort 12\u003cbr\u003eMonths on Book=%{x}\u003cbr\u003eCumulative Default Rate=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Cohort 12","line":{"color":"rgb(33,113,181)","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"Cohort 12","orientation":"v","showlegend":true,"x":{"dtype":"i1","bdata":"AQIDBAUGBwgJCgsM"},"xaxis":"x","y":{"dtype":"f8","bdata":"Ge\u002f\u002f+rVygj\u002fUWZh4hQaRP+dqYe6e1pU\u002fYBxrh6TWnT+nF0M0kDugP0QjSWQQUJ4\u002f7pH7QHDhoD8WJRE\u002f7T+hPwcJq\u002fn2KqM\u002fEnGpGQ1MpD8ILNHwEeqjP2N5qcoz7qI\u002f"},"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Months on Book"},"showgrid":true,"gridcolor":"#f1f5f9"},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Cumulative Default Rate"},"tickformat":".1%","showgrid":true,"gridcolor":"#f1f5f9"},"legend":{"title":{"text":"Cohort"},"tracegroupgap":0,"orientation":"v","x":1.02,"y":1},"title":{"text":"Vintage Analysis \u2014 Cumulative Default Rate by Cohort"},"font":{"family":"Inter"},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"x unified"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('f78af899-98ff-4a1d-a5fb-76fdea77750a');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<hr>
+</section>
+<section id="roll-rate-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="roll-rate-matrix">Roll rate matrix</h2>
+<div id="1c5d6e91" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate roll rate matrix (bucket migration)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>buckets <span class="op">=</span> [<span class="st">'Current'</span>, <span class="st">'1-30 DPD'</span>, <span class="st">'31-60 DPD'</span>, <span class="st">'61-90 DPD'</span>, <span class="st">'90+ DPD'</span>, <span class="st">'Write-off'</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>roll_matrix <span class="op">=</span> np.array([</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.85</span>, <span class="fl">0.10</span>, <span class="fl">0.03</span>, <span class="fl">0.01</span>, <span class="fl">0.005</span>, <span class="fl">0.005</span>],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.40</span>, <span class="fl">0.30</span>, <span class="fl">0.20</span>, <span class="fl">0.06</span>, <span class="fl">0.030</span>, <span class="fl">0.010</span>],</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.15</span>, <span class="fl">0.15</span>, <span class="fl">0.35</span>, <span class="fl">0.25</span>, <span class="fl">0.070</span>, <span class="fl">0.030</span>],</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.45</span>, <span class="fl">0.250</span>, <span class="fl">0.100</span>],</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.02</span>, <span class="fl">0.02</span>, <span class="fl">0.03</span>, <span class="fl">0.08</span>, <span class="fl">0.550</span>, <span class="fl">0.300</span>],</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.00</span>, <span class="fl">0.00</span>, <span class="fl">0.00</span>, <span class="fl">0.00</span>, <span class="fl">0.000</span>, <span class="fl">1.000</span>],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>go.Heatmap(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    z<span class="op">=</span>roll_matrix,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>buckets,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>buckets,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>[[<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">:.1%}</span><span class="ss">'</span> <span class="cf">for</span> v <span class="kw">in</span> row] <span class="cf">for</span> row <span class="kw">in</span> roll_matrix],</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    texttemplate<span class="op">=</span><span class="st">'%</span><span class="sc">{text}</span><span class="st">'</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    colorscale<span class="op">=</span><span class="st">'Blues'</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    showscale<span class="op">=</span><span class="va">True</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Roll Rate Matrix — Monthly Migration Between Delinquency Buckets'</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">'To bucket (next month)'</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">'From bucket (current month)'</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    font_family<span class="op">=</span><span class="st">'Inter'</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="d76e5ae1-f7c3-49c1-9c31-6fe35359aae7" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("d76e5ae1-f7c3-49c1-9c31-6fe35359aae7")) {                    Plotly.newPlot(                        "d76e5ae1-f7c3-49c1-9c31-6fe35359aae7",                        [{"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"showscale":true,"text":[["85.0%","10.0%","3.0%","1.0%","0.5%","0.5%"],["40.0%","30.0%","20.0%","6.0%","3.0%","1.0%"],["15.0%","15.0%","35.0%","25.0%","7.0%","3.0%"],["5.0%","5.0%","10.0%","45.0%","25.0%","10.0%"],["2.0%","2.0%","3.0%","8.0%","55.0%","30.0%"],["0.0%","0.0%","0.0%","0.0%","0.0%","100.0%"]],"texttemplate":"%{text}","x":["Current","1-30 DPD","31-60 DPD","61-90 DPD","90+ DPD","Write-off"],"y":["Current","1-30 DPD","31-60 DPD","61-90 DPD","90+ DPD","Write-off"],"z":{"dtype":"f8","bdata":"MzMzMzMz6z+amZmZmZm5P7gehetRuJ4\u002fexSuR+F6hD97FK5H4Xp0P3sUrkfhenQ\u002fmpmZmZmZ2T8zMzMzMzPTP5qZmZmZmck\u002fuB6F61G4rj+4HoXrUbieP3sUrkfheoQ\u002fMzMzMzMzwz8zMzMzMzPDP2ZmZmZmZtY\u002fAAAAAAAA0D\u002fsUbgeheuxP7gehetRuJ4\u002fmpmZmZmZqT+amZmZmZmpP5qZmZmZmbk\u002fzczMzMzM3D8AAAAAAADQP5qZmZmZmbk\u002fexSuR+F6lD97FK5H4XqUP7gehetRuJ4\u002fexSuR+F6tD+amZmZmZnhPzMzMzMzM9M\u002fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPA\u002f","shape":"6, 6"},"type":"heatmap"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"font":{"family":"Inter"},"title":{"text":"Roll Rate Matrix \u2014 Monthly Migration Between Delinquency Buckets"},"xaxis":{"title":{"text":"To bucket (next month)"}},"yaxis":{"title":{"text":"From bucket (current month)"}},"plot_bgcolor":"white","paper_bgcolor":"white"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('d76e5ae1-f7c3-49c1-9c31-6fe35359aae7');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<hr>
+</section>
+<section id="risk-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="risk-segmentation">Risk segmentation</h2>
+<div id="dbf4c318" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster accounts into risk segments</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'balance'</span>, <span class="st">'credit_score'</span>, <span class="st">'income'</span>, <span class="st">'age'</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> portfolio[features].copy()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>X[<span class="st">'credit_score'</span>] <span class="op">=</span> (X[<span class="st">'credit_score'</span>] <span class="op">-</span> X[<span class="st">'credit_score'</span>].mean()) <span class="op">/</span> X[<span class="st">'credit_score'</span>].std()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>X[<span class="st">'income'</span>] <span class="op">=</span> (X[<span class="st">'income'</span>] <span class="op">-</span> X[<span class="st">'income'</span>].mean()) <span class="op">/</span> X[<span class="st">'income'</span>].std()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>portfolio[<span class="st">'segment'</span>] <span class="op">=</span> kmeans.fit_predict(X)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>segment_names <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'Low Risk'</span>, <span class="dv">1</span>: <span class="st">'Medium Risk'</span>, <span class="dv">2</span>: <span class="st">'High Risk'</span>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>portfolio[<span class="st">'segment_name'</span>] <span class="op">=</span> portfolio[<span class="st">'segment'</span>].<span class="bu">map</span>(segment_names)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.scatter(portfolio.sample(<span class="dv">500</span>), </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                 x<span class="op">=</span><span class="st">'credit_score'</span>, y<span class="op">=</span><span class="st">'balance_amount'</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                 color<span class="op">=</span><span class="st">'segment_name'</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                 title<span class="op">=</span><span class="st">'Portfolio Risk Segmentation'</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                 labels<span class="op">=</span>{<span class="st">'credit_score'</span>: <span class="st">'Credit Score'</span>, </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'balance_amount'</span>: <span class="st">'Balance Amount (MXN)'</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'segment_name'</span>: <span class="st">'Risk Segment'</span>},</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                 color_discrete_map<span class="op">=</span>{</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'Low Risk'</span>: <span class="st">'#3b82f6'</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'Medium Risk'</span>: <span class="st">'#f59e0b'</span>, </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'High Risk'</span>: <span class="st">'#ef4444'</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                 },</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                 opacity<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    font_family<span class="op">=</span><span class="st">'Inter'</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(showgrid<span class="op">=</span><span class="va">True</span>, gridcolor<span class="op">=</span><span class="st">'#f1f5f9'</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>fig.update_yaxes(showgrid<span class="op">=</span><span class="va">True</span>, gridcolor<span class="op">=</span><span class="st">'#f1f5f9'</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="38de0acd-f9ef-40da-871c-b19c3fa445ee" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("38de0acd-f9ef-40da-871c-b19c3fa445ee")) {                    Plotly.newPlot(                        "38de0acd-f9ef-40da-871c-b19c3fa445ee",                        [{"hovertemplate":"Risk Segment=High Risk\u003cbr\u003eCredit Score=%{x}\u003cbr\u003eBalance Amount (MXN)=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"High Risk","marker":{"color":"#ef4444","opacity":0.7,"symbol":"circle"},"mode":"markers","name":"High Risk","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"7I2cUPwHhUBAjeMJeL+HQPsjWMEH4oJAqCfcsZYbhECZfF9JKr2BQKCA0TKaUINA7pF7Zd2OgkDS6FN9be+EQA15Uf9BK4RAestqoOl4hUDVI5698nCCQDwjx11HvYFAWV5dmgd5hECy7BGjdBCIQOpwokvC\u002fIJAHnDVD1mbg0DnOfRBEHeFQGJ5y3gao4ZAYAGBorHehkALMJzUdVaFQKF5WrrdLYdA5uoaYhnAg0DOK+DMf\u002fCBQOI\u002fTv\u002fPbYVAqC69FbU3hkBi3CcJ2\u002fWGQBeoEy4m\u002fIZAYQQJ1097hEC4XqKYp1OGQK3nScyc+oBAWGWT8O3PhUAuV70Hbe5\u002fQKLvTo70OoRA4mqNo1uQhkB9wPVsBwmKQCPRPbQCjIFA2CRWEXnvgkCderqzEhKCQJumzBgCsoNAPsnDj4lgg0Cq9mbq3pSEQDz+Wqz+Y4lAzwNXlbUIhkBZZ\u002fsxKf2FQAvrJaU3rIZAsFX0XM2whkDDVmw09OuEQPx2COApTIJAngIY+sS+gkC4cOO7OSKBQAUt+l0VxYFAODLbPO8Uh0CpwueJErSFQJ3JT1K1hYVALAJk1wUAhUCWIeg6MfqGQH1FriCCl4hAlSmc5O62h0Ar5xHTzAuEQBlJkQeLLYVABuLcd2rPg0Bd6jumr5iDQJMW3Mv1JoVAqbEDH43vhEBuUuIic5CGQGc9FbMYs4JA29b1XGeXh0ARRPz5uK+IQGALRzHO0IRAh4UL6kZhg0B\u002fUF1H0jmFQFrR1h5IZoVA2eFTyDqngkA8P6p9bk6DQBFt+OyywIRAHfjMqBuxhEA27troQLyEQIlJxPrC8YZAfRdKOza7hUCFheE0AY+FQEDFHPxLVIFAiueFseXGhUCzaQwDX3eGQI6+VtZSzYZAZxwGK9xDhECOeIUNI+iBQKSuaYRpSIJABmvSk5\u002f4hEAF0S7MJQaCQEAbM9zDUYZAE2xVI312hEBjkaTaONCEQHwUBRqVw4RAcQ0hM4F9g0D1KAtn8mKEQJvTC28GjIVAdu823l7HhUBQOz3rJ2iEQGfy\u002fPw\u002f74RArGVi5H1+gkBMVAzu9FGIQOs+FsywgIFAhPXMZHaoh0C3JGGBBTSCQJ3FApeiln9Alsi\u002fiOEoh0BYXpZeOWWEQEd31G5\u002fqIJAZ2axcGo5iEB9unjplbqAQDZpzAWp+4BAzw6dK\u002fnigEDJBq6MbQ+BQPOym9KCfIRAy7XPjMkNhEBGIK6TFCCGQFIrZhf51INAlFETuaV9hUAAAAAAAJCKQLMTyTY5QoNA0liIx5EJhUDGBunsXm+HQBbWrdpxrYlAfZfa68C9g0CKTadTxbKFQCSxg80L44JAlnWh3KJKgkCSngoi0w2EQHCEag4ZMoVAxU0YtZXZgkC0IDD\u002fMguIQIqXLIb9WYdAMDxuJkG7hEC+QOevxe2CQOLhYxqNK4VAA8vUo6ohgUBnTioKaqCDQJ89Eoe9YYJAeZd+fnqZhEDsEkeU9zOHQJlrAtyl\u002fYZARKU7eunhfkCsXSEXrTCGQEesPQalbIRA6nUW76WZg0BexU8qePmDQOO+Aauz0YZABWoNhztvhUD9s9KZYGaGQE3\u002fLHmxcoNAx7y\u002fA9e1g0B2+uB03taCQCHETLf0\u002fYNA\u002f2NBUTYVhkCXgM+wMNaDQKHy+Twu8oBAlymjrhaphUDmC3zO6EuFQNRjcB+A44BAPJpRvIfZiUAeGRz3kDmEQN9Or4VsLYRALZXLu9v7gUB6Oh9JMUODQAhnRfFYeIVAhtTowGcRhkAJB0TKJveGQKh5J3kHSIBAxFob\u002fY3lgECpSowJQ5SBQLdlumPFfoVAaX8W2ZgZhkCQtJIS\u002fEKFQF1nUb2QI4RANA+wTO7th0Atx\u002fBN7peHQJ9amHsfE4JANW2yMW9chEBXDKUA9KaFQKaJtT34H4NA\u002fbF8l2jCh0BLEkpoc\u002f+FQAuonz9bY4RA4T5G0jzAgUCJaAfCpjSCQOed01kpH4RA"},"xaxis":"x","y":{"dtype":"f8","bdata":"YJQJkkmdtEB9uvMIhe+8QKHtwoCpGqhAiZo3JqtAwEBVt4ftzASxQNqI44BpM8lAzzKZ82B70EBPMPb9WR3DQAnD3ZmKFNBAqC7VoAeDl0ApaXbLb0nNQIshMT9OxpBATDeiZRyqkkCnms0wRsi5QDWrkSSAvKJALq4GzL\u002fAx0Cl+nLFEZikQBns83yoDKRAL9s5ya4VuEDvEt5Owb+7QKUaNkiRYLRAH5WDuwTOsEC9ULE6xgzQQDhyuAXJppVAnqocafgSvkCW9GKBiRPUQLrZ2IKAidBAL\u002f+OCJuUw0ArVTBvh+GvQPDWePNE2sJAOq5qc8OWwkCnexuKa4qwQPhAkv2OpqVACoPZ32YjsUDkdfNo8z25QJNQKJaf3LpAgm34EAcez0C4FyosN8nhQGwHipHYOc5AkG+TgjTYxUCzk+CyYlSrQPn3gnZYgbJANMLSiKCgzkAlvdXGMfLNQE7R3qdyrpBAtPiCTeo2sEAnErsfxaq7QMbg\u002fl8h66dAkONM2mUx0kBEsfx\u002f2UXgQMFPSDJ9P7lAxA1DWOJD4UASXRgMym67QGplPP\u002f1HsFAnGq+5RHd1kCbBYmlJ3fXQBcdh6+f9sVAULFzOjRs20ATiAwPfFivQHjrW2YQt8RArD7jnaqjtEBkbqTjb9vbQKrnVjfjNdZAilp9kG5\u002f0UAQk7NyukmlQIgShLuRhY9AC5wAahsMyUAgX+oF5OawQGxWCh2PicBA\u002fa2LQgRwwECsAiSclwnCQMijVl72e+BATXzM2+\u002firEDr3b9EkcDVQMiGhCToiblA2\u002fc6MLtc30D15\u002f6nd4eqQHQyzh+72M9AF2U\u002fxZLbuEDIvoQT9aWrQJ4D1JMdLrNAOwOEWRSXtkARD3\u002fUHrmUQG1q5S88LsNAudlvF0\u002fUpUC0l9zELCm\u002fQCxtny2dJ+VAlskrQ\u002fyjpkBUztmMcWvWQGVMLasBlqtA93ekB1g4sUDZzGe+s2aoQNiHUHXFOcBANAWyrgurs0BP29LsXrOiQF5wI6xhSbBAqXCWeBVd2kCvZ9g1ETa2QB7vHGp43dlAH8qSHMvOpUAb3ZgkB4OTQCmHDPrK6sZAS5EDYDYu1EBMqujtc8uuQN7U+hxqq6lABq2P4SZGokA395eUaIrFQDY8iPi3qLdAmwlyq\u002fi6w0AzKedEf061QLN2pnwy+7hAbQw2T9DEyEB99nw0CMrXQOs2VWa0brlAIRM5\u002fl0R4kBetyWPtvSyQO9kwcvR5stAQ76arN7TukAgpewRx6u1QKU3zaqdWdRAfETDacqYrEC5eFwBVBzHQC\u002fyaX+R4LpAEr89wV6vnEBqRoRoEz26QC\u002fAmWzNSqVAOTFCyya22UC59ruOjH24QLSfehscELpAt+a3yAgi0kAen09Vf7LHQOZw\u002fc\u002fkfLpA8JyeiWXiskA+9SuTSJ6oQOGpY3Jit75AUZyC0AJtx0D1tV9fdX27QJoiNCUB8rtABKJBzeWdsECEveP7zSnXQOzCB6UNDsxAMyoC3gxTvkD5yKXQ55S2QOEJQXoBmNNAK1cq5SGAu0ALC1GG1m+3QPsKb4Bqhc1Al1Vz8hngqUAwhQ6Eyr+\u002fQHEWMbiKibJA4PBWIbY3uEDKUnskN2zBQMm+xEHZFM9AUlUYCrES0UCGlmuQFD+7QEwJJWPlOKxAGpiOkOwVuEBNYjhXWHbAQKuchRmdsaVAX\u002fnadJHbmUAMWk46Vzi3QHt1jUsoFq1ALhNQKK1tqUBEi1y+TSvMQABmiiicJNVA5MyJoMWSvkDdMQSHiqbPQAQ6R5sw79FAMhIjvQNYzEDUQfpLUw7fQJj75YncYJJAn\u002fBwi8lxvkCkCYB+7SK0QETkVQc+36dApDFeOLFE10Dix5I7Peq6QH0hYCjjadJAK6Kpzw4ayUAAcjzN82OyQOWWAjLQyrVA0+dgRdy05EBB7J16I63KQAKYTDXl\u002fs1AhEZf3ArWxkBSRi\u002fb94SYQJDfA63RhqFA"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Risk Segment=Medium Risk\u003cbr\u003eCredit Score=%{x}\u003cbr\u003eBalance Amount (MXN)=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Medium Risk","marker":{"color":"#f59e0b","opacity":0.7,"symbol":"circle"},"mode":"markers","name":"Medium Risk","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"4xMh7\u002fjBhECy9oemKSSHQOQAGuOZdYdAs\u002fCyPKLZhED60+0StPuCQFOvGIsZE4RA2ZiH0JiFf0D5cQZ4zYCFQHKv1jFM14RAcw3KwDg\u002fhUAfwVuJ09yEQL4fJiWZX4RA+ELOM9ULhEDNnrBe0tN\u002fQPe0A8eev4JA816dUg+mhUCLChy6nTKEQBQHkQDXt4ZAaC8FVMm\u002fg0Bf4oEZx+eDQMkBo5dmiYNAPNeayq8jgEASe1FeNViCQGJOADiF2YRA4VdKoYmwg0DjZyiUL1yEQDeoh5nVvoNAo6gOlADTgkBRNI0GFy+FQKQCk9+jEodAKmW2RCp7gkBt4eIOTPaAQAqfysgeN4VAE9rs47Z1hECRHsF7ENWAQFYmK1uMx4VAN8eZYhh4hUDNzqbr2weDQIttCuahiYRAjhbeQ75Xf0C\u002fYku2VcGFQOn5JJZBXYhAm5cD4uHlgkAWFnzQdiaFQNgfw18W14dAGU3ZtreQhEDnO5fj+mSGQLZG0e8Zy4JAt6L4YF2yg0BPUdqdgMqJQAT2mn6VEoFAZF51fWAohUCoNv8MiMiEQIgvDsRf3oBAnRDMwtbQhEBnyG8B0iuEQIKXx4uIdYVAmz5pJFJJhUBRfYkDRWiFQEVaKiGmw4dARo6PVQ7MhkDmqK8jiIWEQPEE2miX64RA1AXL7dkxhkAsIAupHjCFQIzn\u002fETOa4RAMUNdXw2mhUB3mP1q0A2EQNoFB5R75INAU+ryhN9wgkAwHVjzHLmFQI9VJVbsj4RAm5hmsL8PhkB+UBt75c6DQO24B\u002fFEf4VAj86G9XSehUBX35\u002f5mnKGQC74\u002fA4h4YZATOFzJLExh0CCxn0tuVmDQG6ykEO0xYBAoUHCuYm2iECpBwawTRmEQHRPVDEIqoVAoGRFq4WTg0C6OHj2pSODQG14ehlBf4NAgubK1ZwWgEAiu+WVscKDQICt6kshk4ZASxUzPK44hkD6S1ZUdXGDQINtF3MOFoVAnCaseT6ShEDhX1xzuIyCQHY5LolY44RATqj0tOk8hUDEHYTPRGCCQOAYMZ2OUoZAHozvd0HjiECWdh31TESFQOEOsIb0joZAEZh6r6NMgUBz4LDjD3SAQG8MPHG1noRABraruAsfiEAp+3fu6eGDQIw9K+Og8INAVCqHsrmfg0Cpgo1vtdGGQKcuoSczYH1A9CzkJAL7gUAwtVIGuA6DQCmxAWhRwYFAdd0X+Rdvh0DcnuZhZ86AQF3AQ6BmioZAkMhO6fFhhEDeFrsM2HmDQKpxJVeCOoJAZIapBb8gg0BbP1dYs0OHQFZImyCt0YVAMOULp7LJgkDkB1NWFa2CQIEQaPiLpIVAB5lT1jslg0DjQN0ahySEQErOjXFLOodAn4tcze38hUAlmsBJeXCFQEuJdAvT44FAG98qA9uugkBuZGmBt8aBQL4jnKHryYVAQSF6nKPBg0DMmvcKGXiCQGZhNhGTK4dAOks1ZS3rhkAZ\u002facSMQqEQFyWm8NiFYJACM80YC5+g0DfNgJlRxiHQGqSU2b06oRAB\u002fhAT0XkhkDomESvGF+GQJFtuebGr4VA"},"xaxis":"x","y":{"dtype":"f8","bdata":"kcjeh82krkCSwG17AWG7QAt\u002fgqmI3MFAPtBvZrD0vkDwSrNb0DzGQN5J8gUHqtVAAXvCaJb2uEBzH25KSEHTQI9JRJqcjpFALLemIMMLyEAaTJuLwtGkQMxxEndEKtlA4W1UhU8fyUBVkh\u002fkiCy5QDMnjvsQXqZA\u002foXyN0xG0UBC2UYaY7ykQOGhPfMBjblARiZXVpOt00BjUAeLCkLkQLOrYOPgwbNAQnFP1KvfuEDDTGzSXInYQMJgiV4vVLxAXAMYQb\u002fbykBAGMVDaYzDQKrawETXds1A\u002fDpNE+5ylECYTdp9\u002fhC5QCsmo0J368NAUrMAlqWjrkAgdcZGyEK2QB\u002f2DfNG7MZAtzMjBiT1vECuv3JEGu6lQJ810kstH9hA3v9LpjhbtECmA8jzxefBQBTFniyqLLlAQcDjbe9DpEC5h8K08+jfQLLrujTkpLtAC0AfD\u002fwqyECR5H\u002fXjG+3QP+bavdoX6RAoeDpKkG3u0ASDBz5thy9QN0i9aCPO9FAfSji1mKvxECKMedfEg3EQJmbqm8E\u002fbZAyiBgMcHwukBFwKiFbZ2tQFE20fVA669AJ65dU6gKtkDiR8Ly8HOnQGaPqmInYsFA0BjJLJhNzEAdR5gEgIvAQCVD42k6Vc5A39ia64jRy0Agky\u002fp4nO3QMyzz2nz\u002frFAgOUZDWxfm0CXqnqqb9y8QCSDa4P9n+NAcUfo\u002fxJP0kDUUO16dlCmQG1t9oi1pKJAOn1zAlDxvEDNhC6wYuzBQI6Vh47VJ7JA1cIGFBgr1kCZ8qD8eQzXQCftKxrJ0bVAB8hWLWvxpkCQdvcY3ATJQOWzEoQUqrhAw6HJvmE1v0DgjsApVd68QJcXPiOeltZA2UDM7HPgv0Bti6gzIsCfQIi1T+\u002fLi7ZARbuc5HJHw0Ad5dVbgVHYQOdJ3F3L1LFAmvjOwZ5nvEDDUhm6DHWvQPPEN4STdeNAjgvXdzxKtUAX+YAUhCrHQDzHolUEG7RAdeFu8+tbskCAUEpDPV2+QFP+4DBNetJAlLvzIVn9zUCIfHp25JPQQGwni867ma5AxwsFV\u002f0AoUAN1UP8sTzUQMa1Of1RXr9A2VK4nzjpzEAowNRclgO2QCPDQHyKpr9AyKTCHJaSskDBmWDU6qa2QFFjd9EYmadAFO7FCYChzkBXNwC91TK2QJXNe7499a5AI\u002f60G7ght0D97hzPS1mTQNN\u002fAXByNLFALccneBEIt0B4pgliMQ+6QLjIidEEbb5AitN4LL6nxkDJ2Pdkd4i5QHOg7euUwqBAXohYUd7o0UBHZILfwTSoQGMpclP1e6RAGzJVWoLWvED\u002fJefPtObFQBnvXQ5XocBAt0TqH6oh10BEp+DMaGW7QMmAQ\u002fkLD8pAqEJphp\u002fd1ECpj8NoGwClQHvO0wvwVbBAuZCtRD\u002fTwEAFLQ7PwDHBQJDFX6F3ZLpAanC3FOfH0EC2Av9umxSgQJyhFJ7Sn6NAV63G2kGd1EAZQEv0lR2dQKbaSb4Nd9BA6dLxQwVuwUAWDzCyCVywQOhNwi\u002fGs7JAZhAGQUw9w0APdnA8eDa+QJCaE0PHE8hA"},"yaxis":"y","type":"scatter"},{"hovertemplate":"Risk Segment=Low Risk\u003cbr\u003eCredit Score=%{x}\u003cbr\u003eBalance Amount (MXN)=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Low Risk","marker":{"color":"#3b82f6","opacity":0.7,"symbol":"circle"},"mode":"markers","name":"Low Risk","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"5EqbrXrrg0DdpKH5zA6CQKMvwCReF4hAyEsACOg5hUBnkmhXfoqCQPz7Ut8ykINATEkJoydTg0B5b4hnPT+HQIhZEDGnuIVAatxZdEilgkBfBQqwA\u002fyDQESTk00hjoNAuj74rfs4hkCZxe9+svWHQMU7et1vEIhAIwFAX6+LiUDYNNMsQ1yEQOxhGtKH44NAvmFuhnJvhECgOpXTsoKHQA4lpwUd7YdA\u002fDdKpjzdhUBv6ig49IWCQIgPb\u002fExQ4RAh1gRCPMvg0A4DYUSoT+GQF3rjI57moRADbcD50ysgUDJWKuU6wKDQM8Cvji85YVA0P0ypuBrhUDQhz28oViFQMU2v0ieNYdAMVGYOll5g0DrjoCkPBuEQL0KFtAsKYJAiJH7AIoIhUB4soeqQB2DQCOJkmYvgIZA9rXFLy8Qg0C20ZhH3N+FQK2Zev9rdoRAIFEWoNazgUBhAyG0CK2BQEXDJ4nJEodAVvFpY2FzgUB6p3+GI3CFQBAHUWKsIoVAbatSxdgAiEB9xPNdAqSCQIh+iQkoPYdAxw0G51P6hED8fJGkUjaHQN5lz2Lio4ZABBWbCkUxhkAf8kBZ6ZqEQAPQygs6T4RAsW9mx4adfUBCiyk76R2DQGAUHAFhIYlAzAeLefY1gkDpwHWoebmEQHk0d+3mgoJAJ1vmSx0wgkBWXN0w7QmGQJe+CrsHQIFAX23udVpPgkDr83RBt5KCQAQ5He3laodA2fnxqHYwgkDK\u002fTC22qeBQEdojFbxmoJAbt9Iq+4IhkBH0Pg6\u002fNKCQNkwRnUzo4RAI\u002fCF1MB9gEBzdQs4vHuDQB4Maau8wX9AYh59tUYehkAkJZcmoXyGQDpIB\u002fUCmoVAnlkuYVOZhEDi964WEW+CQPMLAsj8m4JAMeWCqEPwhEAC1JBqYGeAQLSivhJdyIFADZO4Lqb8g0AYcdXVLPaDQOtriDWP5oRA4r0PSUUgf0Du6NIYNTiEQPF\u002flbASEoVAy+0MPNJehEAM9WzyyjOAQN6YLI5VroFASwx1AJ4bgkAZEBVQSrWCQPQeGKDhfYNAW1VcR+xpg0CBYFSZJzCBQBARVVM5GYRAtPGQ1PFtfUDIYTKEIA2DQGq1Vznl+YVAOhpKRaxcgUAcGRNFZsKGQA1lfg4FF4NAEj3R3CckhkD5MBaueoKDQEfG4XLrSYNAsUnUhEPShkCzkdAsPLyCQGbVpIRLEYNADzrOrJUVhUBXGcpwn3+DQKJfB4mJmIBAsIonJUiqiED3A5bgc4CHQPPDkAzC1oZADNQ\u002fBpaOhUARLAWko+CGQKzIAqdv\u002f4NAqj8LDg+CgkDdMl2NKh2FQFgYg8O4ZIVAL3QmC2BwhEBvUV+QgEKAQDKGvp0VsYJA1JizOt\u002fehUB\u002fgn9\u002fnxOKQExUHizXgoNAv5E\u002f06mOhECBprwRRTSDQGax8HC7AIpAkl7PQ7XrgkANhtiV42R+QNBWt2byy4NA4CGTd\u002fFXg0Dohwuc2p+GQNu5GtqgEYRAcBMVjlq5h0DnlVSK8YCCQIe1n5iwtoNAAAAAAACQikDO6F0YHwOJQMvz4esD8ohAUzwDTILfhkAW+Dr25J6BQB9DwXKb0H9Atui5OWSghEDcxpPdcKJ+QFMY3i3lsodAcksZozSGhEBLwXVAig2GQOi+OsvyhYZA4fxvSWBQhEA5aBJ6B+mDQNppMYJ\u002f4IJAgNR6875UgkCThiIijiuBQGK1IpLaP4FAZQvNm\u002fSogkB50JWxkHyCQDDD5HTr8oZAdz7baZh\u002fg0Duez8hzsuCQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"BC\u002fUIe+b0UBkxO+m7ffJQNhmMKB4prZAzYtNQ+0lokCjxR7azDfOQMO\u002fcHRZOLdAMtYZGvcjvUBG8n3GZRvAQANV7laGkNVA1sc8Z9\u002fOrkCSYtKzneTOQOFfsvNMF9VA+5gZYAQntUAZog36CsG+QAZ4uny\u002fQuVALuSETDsU1EAGBsvFNHbXQGcr2k7SoNFAWgvgPW7duUANMS9efQC1QHX7hmgXvr5ADzTkWxRewkBxpc8fN1nRQGfPELBtc91ASBsefZ6UwECHq0lD3423QJIVI\u002fazjrFA9V1FAlwJsEASlb5f3LfQQD5IN2PGvJdAfRV\u002f5VRmykBm9+X6pv3eQChidD7kWsJA4uk5L6Sr1kAZKyCjwu6TQHUJC+Vd6bFAqbY\u002fp+sGu0AJ7A1oKTXFQC8uqmb1drpAUwh\u002fpaYj3UCzykjuf6HJQACCTB9exKRAw4XwkZi5k0BowsVvwHjWQLViWRRdSc5AOf+fiQlLu0AMKoP9907lQCwU7BzJaNlAW5mZ0Xyk0EAsrMnTkHmzQGlsp12wQsBAX5qD7weryEBdRjamWMi9QBd2Sv4Sr89A+HSmlCESsECWSQ8vw3bIQMrH2kUlvL1AZ844L+BLwUDeOuBteFzHQJt9evNxYaVAVeGLWj3K2UBKFUY4k8iTQKKO8H6P+KNAHiSUlqpsuUBvtH1sD4q0QOW87YPj8cBA8b8VtugCuED4guymLEy8QOaGsilwZbtACWMuqDW9oUDe0bszcu3JQJTgBNzANbBADNP8YGB2xECj9KBCYpHOQLFCqWCMH8FAVWlR89J\u002fqEDijruIf4O7QOiukY3nZNNA6LCZ1Ox0z0DpvCtOF4e7QA02smS5DqJA6YqrjiJovUCvCAzRatLHQDpiKrgDbrpA\u002f0XHC1Svr0BpQIiuWvu3QD2eR+yDAclA4\u002feaiPgQrUDBYy3luuHCQNMsztvhwMxA3ALq82zypUDORk15ATq4QPVk8ucbobdAHUIu5Nv7tUDabu3FhqvSQGLUdYiTNKdA42qOF\u002fRYzkCImn5zC\u002fyyQEG\u002fyrE8aMBA4gFyJRSUuUCoc1H9M3TUQA+h4eBeueNAl8h1bVhDw0AfPiJh4yOjQMOn6YqWlcxAmIt6TYcYwEA\u002fD8jQUPTMQJjHRmZedMFAGcFKF+nmwEDKIy5L43zFQPSneMfxvthA8V9xG8kR0kBP0q4Wi823QEcZutcTFNdAXJuzkqOZq0Blay6Ng9LNQPo9VIMXvsVAumSM+ITxwED9dIIA4429QA\u002fH8AsxJsRAw6VebLWxzkAfnOP1KZW3QDpmcz9KXtdA4ZtcZGXkxUDKz6eYda20QFMFPcz\u002fHc9ADVPgXt\u002fCskBtm6lTQcWZQJpaE0nWgsRAWqOg08LQp0Cdi8zCZ3XVQH+1BBWBsLxA+jR4O+g4vUC1I9tD9tzUQE11x1113cBA1YcB1CNdsEBUAayEYhutQD8eRUCnjtlAIdIUcJQStUCxz3BtTtjAQNnm6KEuksBAUaud9xIFqUCXj5AeXDrBQM59yYjEXNBAkUbtA2wUzEDSuiXGU0mvQIEOrzB9YrpAZfWk3B7ArUBcENmIrL2wQERlU1ZarLdASxOaC28pukAPkpWpnDfEQNGPygB4lcdA1Vo9tOf5u0AuDmup1AayQIJ5aMTrpMBA3pH5aa\u002fnrECyl2+yNpC9QNXXnX7ENdJAdJTztc4I30DAUEhBaZbVQCDhW7XV77NAEwrISfOvokD07uNp2zyvQA0pn3tQer9AobrOm55Jt0CJeSQTFpCyQA=="},"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Credit Score"},"showgrid":true,"gridcolor":"#f1f5f9"},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Balance Amount (MXN)"},"showgrid":true,"gridcolor":"#f1f5f9"},"legend":{"title":{"text":"Risk Segment"},"tracegroupgap":0},"title":{"text":"Portfolio Risk Segmentation"},"font":{"family":"Inter"},"plot_bgcolor":"white","paper_bgcolor":"white"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('38de0acd-f9ef-40da-871c-b19c3fa445ee');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<hr>
+</section>
+<section id="portfolio-summary" class="level2">
+<h2 class="anchored" data-anchor-id="portfolio-summary">Portfolio summary</h2>
+<div id="010ff55a" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> portfolio.groupby(<span class="st">'segment_name'</span>).agg(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    accounts<span class="op">=</span>(<span class="st">'account_id'</span>, <span class="st">'count'</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    avg_balance<span class="op">=</span>(<span class="st">'balance_amount'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    avg_credit_score<span class="op">=</span>(<span class="st">'credit_score'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    avg_utilization<span class="op">=</span>(<span class="st">'balance'</span>, <span class="st">'mean'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'avg_balance'</span>] <span class="op">=</span> summary[<span class="st">'avg_balance'</span>].<span class="bu">map</span>(<span class="st">'$</span><span class="sc">{:,.0f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'avg_credit_score'</span>] <span class="op">=</span> summary[<span class="st">'avg_credit_score'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.0f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'avg_utilization'</span>] <span class="op">=</span> summary[<span class="st">'avg_utilization'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.1%}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Portfolio Summary by Risk Segment:"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary.to_string())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Portfolio Summary by Risk Segment:
+              accounts avg_balance avg_credit_score avg_utilization
+segment_name                                                       
+High Risk          877     $10,304              660           50.0%
+Low Risk           801     $10,586              655           51.0%
+Medium Risk        722     $10,266              661           51.0%</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="key-findings" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings">Key findings</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Portfolio insights">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Portfolio insights
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Vintage curves</strong> show early performance is the strongest predictor of long-term default rates</li>
+<li>The roll rate matrix reveals that accounts reaching <strong>61-90 DPD</strong> have only a 15% chance of returning to current</li>
+<li>Risk segmentation identifies a <strong>high-risk cluster</strong> characterised by high utilisation and lower credit scores</li>
+<li>Proactive intervention at <strong>1-30 DPD</strong> is critical — cure rates drop sharply beyond this point</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>Portfolio monitoring is not just about reporting — it’s about detecting signals early enough to act. The combination of vintage analysis, roll rates, and segmentation gives a risk manager a complete picture of portfolio health.</p>
+<blockquote class="blockquote">
+<p><em>“The best time to manage credit risk is before it becomes a problem. By the time accounts reach 90+ DPD, the options are limited and the costs are high.”</em></p>
+</blockquote>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Wendy Lucio</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

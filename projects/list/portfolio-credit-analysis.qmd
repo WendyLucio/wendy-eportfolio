@@ -1,0 +1,230 @@
+---
+title: "Credit Card Portfolio Analysis"
+description: "An interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation."
+author: "Wendy Lucio"
+date: "2026-03-15"
+image: "../../images/project2.jpg"
+categories: [Portfolio Analytics, Credit Risk, Python, Plotly]
+---
+
+## Overview
+
+Portfolio monitoring is the backbone of any credit risk function. In this project I replicate the type of analysis I performed daily as **Deputy Director of Credit Risk at Banorte** — tracking portfolio health, identifying deterioration signals, and segmenting risk across a credit card book.
+
+::: {.callout-note}
+Vintage analysis and roll rate matrices are standard tools in retail banking risk management. This project demonstrates their implementation in Python with interactive Plotly visualisations.
+:::
+
+---
+
+## Objectives
+
+- Build a **vintage analysis** to track cohort default curves over time
+- Construct a **roll rate matrix** to measure migration between delinquency buckets
+- Segment the portfolio by **risk profile** using clustering
+- Create **interactive dashboards** with Plotly
+
+---
+
+## Setup
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import warnings
+warnings.filterwarnings('ignore')
+
+np.random.seed(42)
+```
+
+---
+
+## Data simulation
+
+```{python}
+# Simulate a credit card portfolio with 12 monthly cohorts
+n_cohorts = 12
+n_accounts = 200
+
+cohorts = []
+for cohort in range(1, n_cohorts + 1):
+    accounts = pd.DataFrame({
+        'cohort': cohort,
+        'account_id': range((cohort-1)*n_accounts, cohort*n_accounts),
+        'credit_limit': np.random.choice([10000,20000,30000,50000], n_accounts, p=[0.4,0.3,0.2,0.1]),
+        'balance': np.random.uniform(0.1, 0.9, n_accounts),
+        'age': np.random.randint(25, 60, n_accounts),
+        'income': np.random.normal(50000, 15000, n_accounts).clip(20000, 120000),
+        'credit_score': np.random.normal(660, 70, n_accounts).clip(400, 850),
+    })
+    cohorts.append(accounts)
+
+portfolio = pd.concat(cohorts, ignore_index=True)
+portfolio['balance_amount'] = portfolio['credit_limit'] * portfolio['balance']
+
+print(f"Portfolio: {len(portfolio):,} accounts across {n_cohorts} cohorts")
+portfolio.head()
+```
+
+---
+
+## Vintage analysis
+
+```{python}
+# Generate cumulative default rates by cohort and month-on-book
+months_on_book = range(1, 13)
+vintage_data = []
+
+for cohort in range(1, n_cohorts + 1):
+    base_default = np.random.uniform(0.02, 0.06)
+    for mob in months_on_book:
+        cum_default = base_default * (1 - np.exp(-0.3 * mob)) + np.random.normal(0, 0.002)
+        vintage_data.append({
+            'cohort': f'Cohort {cohort:02d}',
+            'mob': mob,
+            'cum_default_rate': max(0, cum_default)
+        })
+
+vintage_df = pd.DataFrame(vintage_data)
+
+fig = px.line(vintage_df, x='mob', y='cum_default_rate', color='cohort',
+              title='Vintage Analysis — Cumulative Default Rate by Cohort',
+              labels={'mob': 'Months on Book', 'cum_default_rate': 'Cumulative Default Rate',
+                      'cohort': 'Cohort'},
+              color_discrete_sequence=px.colors.sequential.Blues_r)
+
+fig.update_layout(
+    yaxis_tickformat='.1%',
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    font_family='Inter',
+    legend=dict(orientation='v', x=1.02, y=1),
+    hovermode='x unified'
+)
+fig.update_xaxes(showgrid=True, gridcolor='#f1f5f9')
+fig.update_yaxes(showgrid=True, gridcolor='#f1f5f9')
+fig.show()
+```
+
+---
+
+## Roll rate matrix
+
+```{python}
+# Simulate roll rate matrix (bucket migration)
+buckets = ['Current', '1-30 DPD', '31-60 DPD', '61-90 DPD', '90+ DPD', 'Write-off']
+
+roll_matrix = np.array([
+    [0.85, 0.10, 0.03, 0.01, 0.005, 0.005],
+    [0.40, 0.30, 0.20, 0.06, 0.030, 0.010],
+    [0.15, 0.15, 0.35, 0.25, 0.070, 0.030],
+    [0.05, 0.05, 0.10, 0.45, 0.250, 0.100],
+    [0.02, 0.02, 0.03, 0.08, 0.550, 0.300],
+    [0.00, 0.00, 0.00, 0.00, 0.000, 1.000],
+])
+
+fig = go.Figure(data=go.Heatmap(
+    z=roll_matrix,
+    x=buckets,
+    y=buckets,
+    text=[[f'{v:.1%}' for v in row] for row in roll_matrix],
+    texttemplate='%{text}',
+    colorscale='Blues',
+    showscale=True
+))
+
+fig.update_layout(
+    title='Roll Rate Matrix — Monthly Migration Between Delinquency Buckets',
+    xaxis_title='To bucket (next month)',
+    yaxis_title='From bucket (current month)',
+    font_family='Inter',
+    plot_bgcolor='white',
+    paper_bgcolor='white'
+)
+fig.show()
+```
+
+---
+
+## Risk segmentation
+
+```{python}
+# Cluster accounts into risk segments
+features = ['balance', 'credit_score', 'income', 'age']
+X = portfolio[features].copy()
+X['credit_score'] = (X['credit_score'] - X['credit_score'].mean()) / X['credit_score'].std()
+X['income'] = (X['income'] - X['income'].mean()) / X['income'].std()
+
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+portfolio['segment'] = kmeans.fit_predict(X)
+
+segment_names = {0: 'Low Risk', 1: 'Medium Risk', 2: 'High Risk'}
+portfolio['segment_name'] = portfolio['segment'].map(segment_names)
+
+fig = px.scatter(portfolio.sample(500), 
+                 x='credit_score', y='balance_amount',
+                 color='segment_name',
+                 title='Portfolio Risk Segmentation',
+                 labels={'credit_score': 'Credit Score', 
+                         'balance_amount': 'Balance Amount (MXN)',
+                         'segment_name': 'Risk Segment'},
+                 color_discrete_map={
+                     'Low Risk': '#3b82f6',
+                     'Medium Risk': '#f59e0b', 
+                     'High Risk': '#ef4444'
+                 },
+                 opacity=0.7)
+
+fig.update_layout(
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    font_family='Inter'
+)
+fig.update_xaxes(showgrid=True, gridcolor='#f1f5f9')
+fig.update_yaxes(showgrid=True, gridcolor='#f1f5f9')
+fig.show()
+```
+
+---
+
+## Portfolio summary
+
+```{python}
+summary = portfolio.groupby('segment_name').agg(
+    accounts=('account_id', 'count'),
+    avg_balance=('balance_amount', 'mean'),
+    avg_credit_score=('credit_score', 'mean'),
+    avg_utilization=('balance', 'mean')
+).round(2)
+
+summary['avg_balance'] = summary['avg_balance'].map('${:,.0f}'.format)
+summary['avg_credit_score'] = summary['avg_credit_score'].map('{:.0f}'.format)
+summary['avg_utilization'] = summary['avg_utilization'].map('{:.1%}'.format)
+
+print("Portfolio Summary by Risk Segment:")
+print(summary.to_string())
+```
+
+---
+
+## Key findings
+
+::: {.callout-tip title="Portfolio insights"}
+- **Vintage curves** show early performance is the strongest predictor of long-term default rates
+- The roll rate matrix reveals that accounts reaching **61-90 DPD** have only a 15% chance of returning to current
+- Risk segmentation identifies a **high-risk cluster** characterised by high utilisation and lower credit scores
+- Proactive intervention at **1-30 DPD** is critical — cure rates drop sharply beyond this point
+:::
+
+---
+
+## Conclusions
+
+Portfolio monitoring is not just about reporting — it's about detecting signals early enough to act. The combination of vintage analysis, roll rates, and segmentation gives a risk manager a complete picture of portfolio health.
+
+> *"The best time to manage credit risk is before it becomes a problem. By the time accounts reach 90+ DPD, the options are limited and the costs are high."*

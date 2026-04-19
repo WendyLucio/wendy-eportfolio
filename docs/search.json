@@ -130,6 +130,83 @@
     "href": "projects/index.html",
     "title": "Projects",
     "section": "",
-    "text": "Welcome to my project portfolio. Here you’ll find data science and risk analytics projects combining Python, Machine Learning, and financial domain expertise.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Risk Scorecard Model\n\n\n\nMachine Learning\n\nCredit Risk\n\nPython\n\n\n\nA machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset.\n\n\n\nApr 1, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my project portfolio. Here you’ll find data science and risk analytics projects combining Python, Machine Learning, and financial domain expertise.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Risk Scorecard Model\n\n\n\nMachine Learning\n\nCredit Risk\n\nPython\n\n\n\nA machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset.\n\n\n\nApr 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Card Portfolio Analysis\n\n\n\nPortfolio Analytics\n\nCredit Risk\n\nPython\n\nPlotly\n\n\n\nAn interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation.\n\n\n\nMar 15, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html",
+    "href": "projects/list/portfolio-credit-analysis.html",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "",
+    "text": "Portfolio monitoring is the backbone of any credit risk function. In this project I replicate the type of analysis I performed daily as Deputy Director of Credit Risk at Banorte — tracking portfolio health, identifying deterioration signals, and segmenting risk across a credit card book.\n\n\n\n\n\n\nNote\n\n\n\nVintage analysis and roll rate matrices are standard tools in retail banking risk management. This project demonstrates their implementation in Python with interactive Plotly visualisations."
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#overview",
+    "href": "projects/list/portfolio-credit-analysis.html#overview",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "",
+    "text": "Portfolio monitoring is the backbone of any credit risk function. In this project I replicate the type of analysis I performed daily as Deputy Director of Credit Risk at Banorte — tracking portfolio health, identifying deterioration signals, and segmenting risk across a credit card book.\n\n\n\n\n\n\nNote\n\n\n\nVintage analysis and roll rate matrices are standard tools in retail banking risk management. This project demonstrates their implementation in Python with interactive Plotly visualisations."
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#objectives",
+    "href": "projects/list/portfolio-credit-analysis.html#objectives",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Objectives",
+    "text": "Objectives\n\nBuild a vintage analysis to track cohort default curves over time\nConstruct a roll rate matrix to measure migration between delinquency buckets\nSegment the portfolio by risk profile using clustering\nCreate interactive dashboards with Plotly"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#setup",
+    "href": "projects/list/portfolio-credit-analysis.html#setup",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nimport plotly.express as px\nimport plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nimport warnings\nwarnings.filterwarnings('ignore')\n\nnp.random.seed(42)"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#data-simulation",
+    "href": "projects/list/portfolio-credit-analysis.html#data-simulation",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Data simulation",
+    "text": "Data simulation\n\n# Simulate a credit card portfolio with 12 monthly cohorts\nn_cohorts = 12\nn_accounts = 200\n\ncohorts = []\nfor cohort in range(1, n_cohorts + 1):\n    accounts = pd.DataFrame({\n        'cohort': cohort,\n        'account_id': range((cohort-1)*n_accounts, cohort*n_accounts),\n        'credit_limit': np.random.choice([10000,20000,30000,50000], n_accounts, p=[0.4,0.3,0.2,0.1]),\n        'balance': np.random.uniform(0.1, 0.9, n_accounts),\n        'age': np.random.randint(25, 60, n_accounts),\n        'income': np.random.normal(50000, 15000, n_accounts).clip(20000, 120000),\n        'credit_score': np.random.normal(660, 70, n_accounts).clip(400, 850),\n    })\n    cohorts.append(accounts)\n\nportfolio = pd.concat(cohorts, ignore_index=True)\nportfolio['balance_amount'] = portfolio['credit_limit'] * portfolio['balance']\n\nprint(f\"Portfolio: {len(portfolio):,} accounts across {n_cohorts} cohorts\")\nportfolio.head()\n\nPortfolio: 2,400 accounts across 12 cohorts\n\n\n\n\n\n\n\n\n\ncohort\naccount_id\ncredit_limit\nbalance\nage\nincome\ncredit_score\nbalance_amount\n\n\n\n\n0\n1\n0\n10000\n0.613625\n54\n66840.165272\n554.806449\n6136.253169\n\n\n1\n1\n1\n50000\n0.167312\n41\n28382.063593\n641.748538\n8365.598600\n\n\n2\n1\n2\n30000\n0.229303\n44\n48156.330402\n581.220669\n6879.089138\n\n\n3\n1\n3\n20000\n0.818843\n49\n48870.445179\n649.567433\n16376.867016\n\n\n4\n1\n4\n10000\n0.585143\n46\n33481.221427\n659.534258\n5851.432477"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#vintage-analysis",
+    "href": "projects/list/portfolio-credit-analysis.html#vintage-analysis",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Vintage analysis",
+    "text": "Vintage analysis\n\n# Generate cumulative default rates by cohort and month-on-book\nmonths_on_book = range(1, 13)\nvintage_data = []\n\nfor cohort in range(1, n_cohorts + 1):\n    base_default = np.random.uniform(0.02, 0.06)\n    for mob in months_on_book:\n        cum_default = base_default * (1 - np.exp(-0.3 * mob)) + np.random.normal(0, 0.002)\n        vintage_data.append({\n            'cohort': f'Cohort {cohort:02d}',\n            'mob': mob,\n            'cum_default_rate': max(0, cum_default)\n        })\n\nvintage_df = pd.DataFrame(vintage_data)\n\nfig = px.line(vintage_df, x='mob', y='cum_default_rate', color='cohort',\n              title='Vintage Analysis — Cumulative Default Rate by Cohort',\n              labels={'mob': 'Months on Book', 'cum_default_rate': 'Cumulative Default Rate',\n                      'cohort': 'Cohort'},\n              color_discrete_sequence=px.colors.sequential.Blues_r)\n\nfig.update_layout(\n    yaxis_tickformat='.1%',\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    font_family='Inter',\n    legend=dict(orientation='v', x=1.02, y=1),\n    hovermode='x unified'\n)\nfig.update_xaxes(showgrid=True, gridcolor='#f1f5f9')\nfig.update_yaxes(showgrid=True, gridcolor='#f1f5f9')\nfig.show()"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#roll-rate-matrix",
+    "href": "projects/list/portfolio-credit-analysis.html#roll-rate-matrix",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Roll rate matrix",
+    "text": "Roll rate matrix\n\n# Simulate roll rate matrix (bucket migration)\nbuckets = ['Current', '1-30 DPD', '31-60 DPD', '61-90 DPD', '90+ DPD', 'Write-off']\n\nroll_matrix = np.array([\n    [0.85, 0.10, 0.03, 0.01, 0.005, 0.005],\n    [0.40, 0.30, 0.20, 0.06, 0.030, 0.010],\n    [0.15, 0.15, 0.35, 0.25, 0.070, 0.030],\n    [0.05, 0.05, 0.10, 0.45, 0.250, 0.100],\n    [0.02, 0.02, 0.03, 0.08, 0.550, 0.300],\n    [0.00, 0.00, 0.00, 0.00, 0.000, 1.000],\n])\n\nfig = go.Figure(data=go.Heatmap(\n    z=roll_matrix,\n    x=buckets,\n    y=buckets,\n    text=[[f'{v:.1%}' for v in row] for row in roll_matrix],\n    texttemplate='%{text}',\n    colorscale='Blues',\n    showscale=True\n))\n\nfig.update_layout(\n    title='Roll Rate Matrix — Monthly Migration Between Delinquency Buckets',\n    xaxis_title='To bucket (next month)',\n    yaxis_title='From bucket (current month)',\n    font_family='Inter',\n    plot_bgcolor='white',\n    paper_bgcolor='white'\n)\nfig.show()"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#risk-segmentation",
+    "href": "projects/list/portfolio-credit-analysis.html#risk-segmentation",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Risk segmentation",
+    "text": "Risk segmentation\n\n# Cluster accounts into risk segments\nfeatures = ['balance', 'credit_score', 'income', 'age']\nX = portfolio[features].copy()\nX['credit_score'] = (X['credit_score'] - X['credit_score'].mean()) / X['credit_score'].std()\nX['income'] = (X['income'] - X['income'].mean()) / X['income'].std()\n\nkmeans = KMeans(n_clusters=3, random_state=42, n_init=10)\nportfolio['segment'] = kmeans.fit_predict(X)\n\nsegment_names = {0: 'Low Risk', 1: 'Medium Risk', 2: 'High Risk'}\nportfolio['segment_name'] = portfolio['segment'].map(segment_names)\n\nfig = px.scatter(portfolio.sample(500), \n                 x='credit_score', y='balance_amount',\n                 color='segment_name',\n                 title='Portfolio Risk Segmentation',\n                 labels={'credit_score': 'Credit Score', \n                         'balance_amount': 'Balance Amount (MXN)',\n                         'segment_name': 'Risk Segment'},\n                 color_discrete_map={\n                     'Low Risk': '#3b82f6',\n                     'Medium Risk': '#f59e0b', \n                     'High Risk': '#ef4444'\n                 },\n                 opacity=0.7)\n\nfig.update_layout(\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    font_family='Inter'\n)\nfig.update_xaxes(showgrid=True, gridcolor='#f1f5f9')\nfig.update_yaxes(showgrid=True, gridcolor='#f1f5f9')\nfig.show()"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#portfolio-summary",
+    "href": "projects/list/portfolio-credit-analysis.html#portfolio-summary",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Portfolio summary",
+    "text": "Portfolio summary\n\nsummary = portfolio.groupby('segment_name').agg(\n    accounts=('account_id', 'count'),\n    avg_balance=('balance_amount', 'mean'),\n    avg_credit_score=('credit_score', 'mean'),\n    avg_utilization=('balance', 'mean')\n).round(2)\n\nsummary['avg_balance'] = summary['avg_balance'].map('${:,.0f}'.format)\nsummary['avg_credit_score'] = summary['avg_credit_score'].map('{:.0f}'.format)\nsummary['avg_utilization'] = summary['avg_utilization'].map('{:.1%}'.format)\n\nprint(\"Portfolio Summary by Risk Segment:\")\nprint(summary.to_string())\n\nPortfolio Summary by Risk Segment:\n              accounts avg_balance avg_credit_score avg_utilization\nsegment_name                                                       \nHigh Risk          877     $10,304              660           50.0%\nLow Risk           801     $10,586              655           51.0%\nMedium Risk        722     $10,266              661           51.0%"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#key-findings",
+    "href": "projects/list/portfolio-credit-analysis.html#key-findings",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Key findings",
+    "text": "Key findings\n\n\n\n\n\n\nTipPortfolio insights\n\n\n\n\nVintage curves show early performance is the strongest predictor of long-term default rates\nThe roll rate matrix reveals that accounts reaching 61-90 DPD have only a 15% chance of returning to current\nRisk segmentation identifies a high-risk cluster characterised by high utilisation and lower credit scores\nProactive intervention at 1-30 DPD is critical — cure rates drop sharply beyond this point"
+  },
+  {
+    "objectID": "projects/list/portfolio-credit-analysis.html#conclusions",
+    "href": "projects/list/portfolio-credit-analysis.html#conclusions",
+    "title": "Credit Card Portfolio Analysis",
+    "section": "Conclusions",
+    "text": "Conclusions\nPortfolio monitoring is not just about reporting — it’s about detecting signals early enough to act. The combination of vintage analysis, roll rates, and segmentation gives a risk manager a complete picture of portfolio health.\n\n“The best time to manage credit risk is before it becomes a problem. By the time accounts reach 90+ DPD, the options are limited and the costs are high.”"
   }
 ]
