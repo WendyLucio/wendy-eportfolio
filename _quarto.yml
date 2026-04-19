@@ -38,3 +38,6 @@ format:
       - flatly
       - styles.scss
     toc: true
+    include-after-body: 
+      file: scroll.js
+    
