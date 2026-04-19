@@ -1,52 +1,45 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Wendy Lucio",
+    "objectID": "reflection.html",
+    "href": "reflection.html",
+    "title": "Reflection",
     "section": "",
-    "text": "I’m a Credit Risk & Analytics professional with 6+ years of experience in the Mexican banking industry, currently pursuing an MSc in Business Analytics at DCU in Dublin, Ireland.\nMy background spans credit risk management, portfolio analytics, and data-driven decision making across top Mexican banks including Scotiabank and Banorte, where I led a team as Deputy Director of Credit Risk.\nI combine strong technical skills — Python, R, SAS, SQL, Power BI — with deep business knowledge, and I’m passionate about how fintechs like Revolut and Nubank are reshaping the financial industry.\n\n\n\n\n📊 Credit Risk Modelling — scorecards, PD models, vintage analysis\n🤖 Machine Learning — classification, clustering, predictive analytics\n📈 Portfolio Analytics — TDC, Auto, Personal Loans, Mortgage\n👥 Team Leadership — managed cross-functional teams of 5"
+    "text": "This module has been one of the most technically demanding — and rewarding — experiences of my MSc journey. Coming from a background in traditional banking risk management, I was comfortable with statistical models and data analysis, but the tools and workflows covered here were largely new to me.\n\n\n\n\n\n\nNoteMy starting point\n\n\n\nBefore this module I had never used Git, Quarto, or built a website from scratch. My technical work had always lived in SAS, Excel, and internal banking systems — never in the open web."
   },
   {
-    "objectID": "index.html#hi-im-wendy",
-    "href": "index.html#hi-im-wendy",
-    "title": "Wendy Lucio",
+    "objectID": "reflection.html#looking-back-to-move-forward",
+    "href": "reflection.html#looking-back-to-move-forward",
+    "title": "Reflection",
     "section": "",
-    "text": "I’m a Credit Risk & Analytics professional with 6+ years of experience in the Mexican banking industry, currently pursuing an MSc in Business Analytics at DCU in Dublin, Ireland.\nMy background spans credit risk management, portfolio analytics, and data-driven decision making across top Mexican banks including Scotiabank and Banorte, where I led a team as Deputy Director of Credit Risk.\nI combine strong technical skills — Python, R, SAS, SQL, Power BI — with deep business knowledge, and I’m passionate about how fintechs like Revolut and Nubank are reshaping the financial industry.\n\n\n\n\n📊 Credit Risk Modelling — scorecards, PD models, vintage analysis\n🤖 Machine Learning — classification, clustering, predictive analytics\n📈 Portfolio Analytics — TDC, Auto, Personal Loans, Mortgage\n👥 Team Leadership — managed cross-functional teams of 5"
+    "text": "This module has been one of the most technically demanding — and rewarding — experiences of my MSc journey. Coming from a background in traditional banking risk management, I was comfortable with statistical models and data analysis, but the tools and workflows covered here were largely new to me.\n\n\n\n\n\n\nNoteMy starting point\n\n\n\nBefore this module I had never used Git, Quarto, or built a website from scratch. My technical work had always lived in SAS, Excel, and internal banking systems — never in the open web."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "I’m Wendy Lucio, a Mexican actuary and data professional based in Dublin, Ireland. I hold a degree in Actuarial Science from UNAM — one of Latin America’s most prestigious universities — and a Diploma in Data Science. I’m currently completing an MSc in Business Analytics at DCU.\nMy career has been driven by a simple belief: the best decisions come from combining rigorous data analysis with deep business understanding."
+    "objectID": "reflection.html#what-i-learned",
+    "href": "reflection.html#what-i-learned",
+    "title": "Reflection",
+    "section": "What I learned",
+    "text": "What I learned\n\nGit and version control\nLearning Git was a mindset shift. In banking, version control meant saving files as model_v2_FINAL_final.sas. Git taught me to think incrementally — every commit tells a story of how a project evolved. I now understand why software teams treat commit history as documentation.\nThe most valuable lesson: commit often, commit descriptively. A clear commit message is a gift to your future self.\n\n\nQuarto and web publishing\nQuarto surprised me. I expected a simple document tool, but it’s a complete publishing system. The ability to combine narrative, executable code, and professional design in a single .qmd file is genuinely powerful — especially for a risk analyst who needs to communicate findings to both technical and non-technical audiences.\n\n\nPython for financial analysis\nMy Python skills have grown significantly. Before this module I could write basic scripts; now I can build end-to-end analytical pipelines with visualisations, from data simulation to model evaluation. Working with scikit-learn and plotly in a reproducible environment has changed how I think about analysis.\n\n\nWeb design and SCSS\nI never expected to enjoy CSS. But learning to build a cohesive visual identity — choosing a colour palette, configuring typography, making design decisions — gave me a new appreciation for the communication dimension of data work. A well-designed portfolio is not vanity; it is clarity."
   },
   {
-    "objectID": "about.html#my-journey",
-    "href": "about.html#my-journey",
-    "title": "About Me",
-    "section": "",
-    "text": "I’m Wendy Lucio, a Mexican actuary and data professional based in Dublin, Ireland. I hold a degree in Actuarial Science from UNAM — one of Latin America’s most prestigious universities — and a Diploma in Data Science. I’m currently completing an MSc in Business Analytics at DCU.\nMy career has been driven by a simple belief: the best decisions come from combining rigorous data analysis with deep business understanding."
+    "objectID": "reflection.html#challenges-i-overcame",
+    "href": "reflection.html#challenges-i-overcame",
+    "title": "Reflection",
+    "section": "Challenges I overcame",
+    "text": "Challenges I overcame\n\n\n\n\n\n\n\nChallenge\nHow I solved it\n\n\n\n\nGit conflicts and errors\nReading error messages carefully, using git status constantly\n\n\nQuarto SCSS not rendering\nUnderstanding the scss:defaults / scss:rules layer structure\n\n\nPython environment issues\nInstalling dependencies incrementally, reading stack traces\n\n\nImpostor syndrome\nRemembering that every expert was once a beginner"
   },
   {
-    "objectID": "about.html#professional-experience",
-    "href": "about.html#professional-experience",
-    "title": "About Me",
-    "section": "Professional experience",
-    "text": "Professional experience\n\nBanorte — Deputy Director of Credit Risk\n2019 – 2024 | Mexico City\nLed a team of 5 analysts in the Credit Card Portfolio Management division. Responsibilities included:\n\nDesign and monitoring of credit risk strategies across the TDC portfolio\nDevelopment of predictive models for credit line management\nReporting and analysis for senior leadership and regulatory bodies\nMentoring and developing junior analysts\n\n\n\nScotiabank Mexico — Credit Risk Analyst\n2017 – 2019 | Mexico City\nWorked in the Collections Risk area across multiple products:\n\nTDC, Auto, Personal Loans, Mortgage, and Scotialine\nDeveloped risk scorecards and collection strategies\nPerformed vintage and roll rate analysis"
+    "objectID": "reflection.html#connecting-to-my-future-goals",
+    "href": "reflection.html#connecting-to-my-future-goals",
+    "title": "Reflection",
+    "section": "Connecting to my future goals",
+    "text": "Connecting to my future goals\nI want to work in a fintech — somewhere like Revolut, Nubank, or Stripe — in a role that combines credit risk expertise with modern data engineering. This module has shown me that the gap between “banking risk analyst” and “fintech data professional” is smaller than I thought. The fundamentals are the same; what changes is the tooling and the pace.\n\n\n\n\n\n\nTipKey insight\n\n\n\nThe skills I built here — reproducible analysis, version control, web publishing — are exactly what modern risk teams at fintechs use. This portfolio is not just an academic exercise; it is a professional signal.\n\n\nBuilding this portfolio has also reinforced something I believe deeply: high standards matter. Every page, every commit, every line of code reflects how you work. I hold myself to high standards not because I was told to, but because I believe the quality of your work is the clearest signal of your professionalism."
   },
   {
-    "objectID": "about.html#skills",
-    "href": "about.html#skills",
-    "title": "About Me",
-    "section": "Skills",
-    "text": "Skills\n\n\n\nTechnical\nBusiness\nTools\n\n\n\n\nPython\nCredit Risk\nSAS\n\n\nR\nPortfolio Management\nSQL\n\n\nMachine Learning\nTeam Leadership\nPower BI\n\n\nStatistics\nRegulatory Reporting\nGit"
-  },
-  {
-    "objectID": "about.html#what-drives-me",
-    "href": "about.html#what-drives-me",
-    "title": "About Me",
-    "section": "What drives me",
-    "text": "What drives me\nI’m fascinated by how fintechs like Revolut and Nubank are disrupting traditional banking. Unlike legacy banks, they use data in real time to make smarter, faster decisions. I want to be part of that transformation — bringing the rigour of traditional risk management into the agility of the fintech world.\nLiving and studying in Dublin has reinforced my belief that the best insights come from diverse perspectives. I enjoy leading teams, learning from different profiles, and holding myself to high standards in everything I do."
+    "objectID": "reflection.html#what-comes-next",
+    "href": "reflection.html#what-comes-next",
+    "title": "Reflection",
+    "section": "What comes next",
+    "text": "What comes next\n\nDeepen my machine learning knowledge — particularly in survival analysis and credit loss forecasting\nContribute to open source risk analytics tools\nApply for risk analytics roles at fintechs in Ireland and the UK\nKeep building in public — this portfolio will continue to grow beyond this module"
   },
   {
     "objectID": "projects/list/credit-risk-scorecard.html",
@@ -124,6 +117,111 @@
     "title": "Credit Risk Scorecard Model",
     "section": "Conclusions",
     "text": "Conclusions\nThis project demonstrates how classical actuarial and statistical techniques can be combined with modern machine learning to build interpretable credit risk models. The scorecard framework remains the industry standard in retail banking precisely because it is transparent, auditable, and easy to implement in production systems.\n\n“In credit risk, a model that regulators and business teams can understand is often more valuable than a black-box with marginally better AUC.”"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Wendy Lucio",
+    "section": "",
+    "text": "I’m a Credit Risk & Analytics professional with 6+ years of experience in the Mexican banking industry, currently pursuing an MSc in Business Analytics at DCU in Dublin, Ireland.\nMy background spans credit risk management, portfolio analytics, and data-driven decision making across top Mexican banks including Scotiabank and Banorte, where I led a team as Deputy Director of Credit Risk.\nI combine strong technical skills — Python, R, SAS, SQL, Power BI — with deep business knowledge, and I’m passionate about how fintechs like Revolut and Nubank are reshaping the financial industry.\n\n\n\n\n📊 Credit Risk Modelling — scorecards, PD models, vintage analysis\n🤖 Machine Learning — classification, clustering, predictive analytics\n📈 Portfolio Analytics — TDC, Auto, Personal Loans, Mortgage\n👥 Team Leadership — managed cross-functional teams of 5"
+  },
+  {
+    "objectID": "index.html#hi-im-wendy",
+    "href": "index.html#hi-im-wendy",
+    "title": "Wendy Lucio",
+    "section": "",
+    "text": "I’m a Credit Risk & Analytics professional with 6+ years of experience in the Mexican banking industry, currently pursuing an MSc in Business Analytics at DCU in Dublin, Ireland.\nMy background spans credit risk management, portfolio analytics, and data-driven decision making across top Mexican banks including Scotiabank and Banorte, where I led a team as Deputy Director of Credit Risk.\nI combine strong technical skills — Python, R, SAS, SQL, Power BI — with deep business knowledge, and I’m passionate about how fintechs like Revolut and Nubank are reshaping the financial industry.\n\n\n\n\n📊 Credit Risk Modelling — scorecards, PD models, vintage analysis\n🤖 Machine Learning — classification, clustering, predictive analytics\n📈 Portfolio Analytics — TDC, Auto, Personal Loans, Mortgage\n👥 Team Leadership — managed cross-functional teams of 5"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "I’m Wendy Lucio, a Mexican actuary and data professional based in Dublin, Ireland. I hold a degree in Actuarial Science from UNAM — one of Latin America’s most prestigious universities — and a Diploma in Data Science. I’m currently completing an MSc in Business Analytics at DCU.\nMy career has been driven by a simple belief: the best decisions come from combining rigorous data analysis with deep business understanding."
+  },
+  {
+    "objectID": "about.html#my-journey",
+    "href": "about.html#my-journey",
+    "title": "About Me",
+    "section": "",
+    "text": "I’m Wendy Lucio, a Mexican actuary and data professional based in Dublin, Ireland. I hold a degree in Actuarial Science from UNAM — one of Latin America’s most prestigious universities — and a Diploma in Data Science. I’m currently completing an MSc in Business Analytics at DCU.\nMy career has been driven by a simple belief: the best decisions come from combining rigorous data analysis with deep business understanding."
+  },
+  {
+    "objectID": "about.html#professional-experience",
+    "href": "about.html#professional-experience",
+    "title": "About Me",
+    "section": "Professional experience",
+    "text": "Professional experience\n\nBanorte — Deputy Director of Credit Risk\n2019 – 2024 | Mexico City\nLed a team of 5 analysts in the Credit Card Portfolio Management division. Responsibilities included:\n\nDesign and monitoring of credit risk strategies across the TDC portfolio\nDevelopment of predictive models for credit line management\nReporting and analysis for senior leadership and regulatory bodies\nMentoring and developing junior analysts\n\n\n\nScotiabank Mexico — Credit Risk Analyst\n2017 – 2019 | Mexico City\nWorked in the Collections Risk area across multiple products:\n\nTDC, Auto, Personal Loans, Mortgage, and Scotialine\nDeveloped risk scorecards and collection strategies\nPerformed vintage and roll rate analysis"
+  },
+  {
+    "objectID": "about.html#skills",
+    "href": "about.html#skills",
+    "title": "About Me",
+    "section": "Skills",
+    "text": "Skills\n\n\n\nTechnical\nBusiness\nTools\n\n\n\n\nPython\nCredit Risk\nSAS\n\n\nR\nPortfolio Management\nSQL\n\n\nMachine Learning\nTeam Leadership\nPower BI\n\n\nStatistics\nRegulatory Reporting\nGit"
+  },
+  {
+    "objectID": "about.html#what-drives-me",
+    "href": "about.html#what-drives-me",
+    "title": "About Me",
+    "section": "What drives me",
+    "text": "What drives me\nI’m fascinated by how fintechs like Revolut and Nubank are disrupting traditional banking. Unlike legacy banks, they use data in real time to make smarter, faster decisions. I want to be part of that transformation — bringing the rigour of traditional risk management into the agility of the fintech world.\nLiving and studying in Dublin has reinforced my belief that the best insights come from diverse perspectives. I enjoy leading teams, learning from different profiles, and holding myself to high standards in everything I do."
+  },
+  {
+    "objectID": "about.html#my-path-in-numbers",
+    "href": "about.html#my-path-in-numbers",
+    "title": "About Me",
+    "section": "My path in numbers",
+    "text": "My path in numbers\n\n\n\nMilestone\nDetail\n\n\n\n\n🎓 Degree\nActuarial Science, UNAM\n\n\n📊 Years in banking\n7+ years\n\n\n🏦 Banks\nScotiabank, Banorte\n\n\n👥 Team size led\n5 analysts\n\n\n🌍 Countries lived\nMexico, Ireland\n\n\n📚 Current\nMSc Business Analytics, DCU"
+  },
+  {
+    "objectID": "about.html#my-workflow",
+    "href": "about.html#my-workflow",
+    "title": "About Me",
+    "section": "My workflow",
+    "text": "My workflow\n\n\n\n\n\nflowchart LR\n    A[Business Problem] --&gt; B[Data Collection]\n    B --&gt; C[Exploratory Analysis]\n    C --&gt; D[Model Development]\n    D --&gt; E[Validation]\n    E --&gt; F[Business Insights]\n    F --&gt; G[Decision & Action]"
+  },
+  {
+    "objectID": "about.html#currently-learning",
+    "href": "about.html#currently-learning",
+    "title": "About Me",
+    "section": "Currently learning",
+    "text": "Currently learning\n\nAdvanced ML — survival analysis, gradient boosting\nCloud platforms — AWS, GCP for data pipelines\n\nQuarto & web publishing\nGit & version control\nInteractive visualisations with Plotly\n\n\n\n\n\n\n\n\nTipFun fact\n\n\n\nBefore moving to Dublin I had never lived outside Mexico City. Now I navigate Irish weather, GAA conversations, and a Master’s degree — all at the same time 🇮🇪"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact & References",
+    "section": "",
+    "text": "I’m always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.\n\n\n\n\n\n\nTipCurrently open to opportunities\n\n\n\nI am actively looking for internships and graduate roles in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from Summer 2026."
+  },
+  {
+    "objectID": "contact.html#get-in-touch",
+    "href": "contact.html#get-in-touch",
+    "title": "Contact & References",
+    "section": "",
+    "text": "I’m always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.\n\n\n\n\n\n\nTipCurrently open to opportunities\n\n\n\nI am actively looking for internships and graduate roles in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from Summer 2026."
+  },
+  {
+    "objectID": "contact.html#contact-information",
+    "href": "contact.html#contact-information",
+    "title": "Contact & References",
+    "section": "Contact information",
+    "text": "Contact information\n\n\n\nChannel\nDetails\n\n\n\n\n Email\nwendy.lucio@mail.dcu.ie\n\n\n LinkedIn\nlinkedin.com/in/wendymlp\n\n\n GitHub\ngithub.com/WendyLucio\n\n\n Location\nDublin, Ireland"
+  },
+  {
+    "objectID": "contact.html#references",
+    "href": "contact.html#references",
+    "title": "Contact & References",
+    "section": "References",
+    "text": "References\nAvailable upon request. I have professional references from:\n\nBanorte — Senior leadership in the Credit Risk division\nScotiabank Mexico — Risk management team\nDCU — Academic supervisor, MSc Business Analytics"
+  },
+  {
+    "objectID": "contact.html#lets-connect",
+    "href": "contact.html#lets-connect",
+    "title": "Contact & References",
+    "section": "Let’s connect",
+    "text": "Let’s connect\nWhether you want to discuss a project, explore a collaboration, or just talk about the future of credit risk in fintech — I’d love to hear from you."
   },
   {
     "objectID": "projects/index.html",
@@ -208,82 +306,5 @@
     "title": "Credit Card Portfolio Analysis",
     "section": "Conclusions",
     "text": "Conclusions\nPortfolio monitoring is not just about reporting — it’s about detecting signals early enough to act. The combination of vintage analysis, roll rates, and segmentation gives a risk manager a complete picture of portfolio health.\n\n“The best time to manage credit risk is before it becomes a problem. By the time accounts reach 90+ DPD, the options are limited and the costs are high.”"
-  },
-  {
-    "objectID": "reflection.html",
-    "href": "reflection.html",
-    "title": "Reflection",
-    "section": "",
-    "text": "This module has been one of the most technically demanding — and rewarding — experiences of my MSc journey. Coming from a background in traditional banking risk management, I was comfortable with statistical models and data analysis, but the tools and workflows covered here were largely new to me.\n\n\n\n\n\n\nNoteMy starting point\n\n\n\nBefore this module I had never used Git, Quarto, or built a website from scratch. My technical work had always lived in SAS, Excel, and internal banking systems — never in the open web."
-  },
-  {
-    "objectID": "reflection.html#looking-back-to-move-forward",
-    "href": "reflection.html#looking-back-to-move-forward",
-    "title": "Reflection",
-    "section": "",
-    "text": "This module has been one of the most technically demanding — and rewarding — experiences of my MSc journey. Coming from a background in traditional banking risk management, I was comfortable with statistical models and data analysis, but the tools and workflows covered here were largely new to me.\n\n\n\n\n\n\nNoteMy starting point\n\n\n\nBefore this module I had never used Git, Quarto, or built a website from scratch. My technical work had always lived in SAS, Excel, and internal banking systems — never in the open web."
-  },
-  {
-    "objectID": "reflection.html#what-i-learned",
-    "href": "reflection.html#what-i-learned",
-    "title": "Reflection",
-    "section": "What I learned",
-    "text": "What I learned\n\nGit and version control\nLearning Git was a mindset shift. In banking, version control meant saving files as model_v2_FINAL_final.sas. Git taught me to think incrementally — every commit tells a story of how a project evolved. I now understand why software teams treat commit history as documentation.\nThe most valuable lesson: commit often, commit descriptively. A clear commit message is a gift to your future self.\n\n\nQuarto and web publishing\nQuarto surprised me. I expected a simple document tool, but it’s a complete publishing system. The ability to combine narrative, executable code, and professional design in a single .qmd file is genuinely powerful — especially for a risk analyst who needs to communicate findings to both technical and non-technical audiences.\n\n\nPython for financial analysis\nMy Python skills have grown significantly. Before this module I could write basic scripts; now I can build end-to-end analytical pipelines with visualisations, from data simulation to model evaluation. Working with scikit-learn and plotly in a reproducible environment has changed how I think about analysis.\n\n\nWeb design and SCSS\nI never expected to enjoy CSS. But learning to build a cohesive visual identity — choosing a colour palette, configuring typography, making design decisions — gave me a new appreciation for the communication dimension of data work. A well-designed portfolio is not vanity; it is clarity."
-  },
-  {
-    "objectID": "reflection.html#challenges-i-overcame",
-    "href": "reflection.html#challenges-i-overcame",
-    "title": "Reflection",
-    "section": "Challenges I overcame",
-    "text": "Challenges I overcame\n\n\n\n\n\n\n\nChallenge\nHow I solved it\n\n\n\n\nGit conflicts and errors\nReading error messages carefully, using git status constantly\n\n\nQuarto SCSS not rendering\nUnderstanding the scss:defaults / scss:rules layer structure\n\n\nPython environment issues\nInstalling dependencies incrementally, reading stack traces\n\n\nImpostor syndrome\nRemembering that every expert was once a beginner"
-  },
-  {
-    "objectID": "reflection.html#connecting-to-my-future-goals",
-    "href": "reflection.html#connecting-to-my-future-goals",
-    "title": "Reflection",
-    "section": "Connecting to my future goals",
-    "text": "Connecting to my future goals\nI want to work in a fintech — somewhere like Revolut, Nubank, or Stripe — in a role that combines credit risk expertise with modern data engineering. This module has shown me that the gap between “banking risk analyst” and “fintech data professional” is smaller than I thought. The fundamentals are the same; what changes is the tooling and the pace.\n\n\n\n\n\n\nTipKey insight\n\n\n\nThe skills I built here — reproducible analysis, version control, web publishing — are exactly what modern risk teams at fintechs use. This portfolio is not just an academic exercise; it is a professional signal.\n\n\nBuilding this portfolio has also reinforced something I believe deeply: high standards matter. Every page, every commit, every line of code reflects how you work. I hold myself to high standards not because I was told to, but because I believe the quality of your work is the clearest signal of your professionalism."
-  },
-  {
-    "objectID": "reflection.html#what-comes-next",
-    "href": "reflection.html#what-comes-next",
-    "title": "Reflection",
-    "section": "What comes next",
-    "text": "What comes next\n\nDeepen my machine learning knowledge — particularly in survival analysis and credit loss forecasting\nContribute to open source risk analytics tools\nApply for risk analytics roles at fintechs in Ireland and the UK\nKeep building in public — this portfolio will continue to grow beyond this module"
-  },
-  {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "Contact & References",
-    "section": "",
-    "text": "I’m always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.\n\n\n\n\n\n\nTipCurrently open to opportunities\n\n\n\nI am actively looking for internships and graduate roles in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from Summer 2026."
-  },
-  {
-    "objectID": "contact.html#get-in-touch",
-    "href": "contact.html#get-in-touch",
-    "title": "Contact & References",
-    "section": "",
-    "text": "I’m always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.\n\n\n\n\n\n\nTipCurrently open to opportunities\n\n\n\nI am actively looking for internships and graduate roles in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from Summer 2026."
-  },
-  {
-    "objectID": "contact.html#contact-information",
-    "href": "contact.html#contact-information",
-    "title": "Contact & References",
-    "section": "Contact information",
-    "text": "Contact information\n\n\n\nChannel\nDetails\n\n\n\n\n Email\nwendy.lucio@mail.dcu.ie\n\n\n LinkedIn\nlinkedin.com/in/wendymlp\n\n\n GitHub\ngithub.com/WendyLucio\n\n\n Location\nDublin, Ireland"
-  },
-  {
-    "objectID": "contact.html#references",
-    "href": "contact.html#references",
-    "title": "Contact & References",
-    "section": "References",
-    "text": "References\nAvailable upon request. I have professional references from:\n\nBanorte — Senior leadership in the Credit Risk division\nScotiabank Mexico — Risk management team\nDCU — Academic supervisor, MSc Business Analytics"
-  },
-  {
-    "objectID": "contact.html#lets-connect",
-    "href": "contact.html#lets-connect",
-    "title": "Contact & References",
-    "section": "Let’s connect",
-    "text": "Let’s connect\nWhether you want to discuss a project, explore a collaboration, or just talk about the future of credit risk in fintech — I’d love to hear from you."
   }
 ]

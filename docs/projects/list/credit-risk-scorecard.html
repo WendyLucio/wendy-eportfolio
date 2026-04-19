@@ -111,10 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
 
 </head>
@@ -152,10 +149,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../../projects/index.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../reflection.html"> 
+<span class="menu-text">Reflection</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../cv/wendy-lucio-cv.pdf" target="_blank"> 
+    <a class="nav-link" href="../../cv/WendyLucioCV.pdf" target="_blank"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -271,7 +276,7 @@ Note
 </section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="06cc064a" class="cell" data-execution_count="1">
+<div id="7624a487" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -293,7 +298,7 @@ Note
 <section id="data-simulation" class="level2">
 <h2 class="anchored" data-anchor-id="data-simulation">Data simulation</h2>
 <p>We simulate a realistic loan dataset with key risk variables used in retail banking.</p>
-<div id="cc361503" class="cell" data-execution_count="2">
+<div id="28cdc9e3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -416,7 +421,7 @@ Default rate: 25.4%</code></pre>
 </section>
 <section id="exploratory-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
-<div id="5b079417" class="cell" data-execution_count="3">
+<div id="a6157530" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Default rate by credit score band</span></span>
@@ -466,7 +471,7 @@ Default rate: 25.4%</code></pre>
 </section>
 <section id="model-training" class="level2">
 <h2 class="anchored" data-anchor-id="model-training">Model training</h2>
-<div id="78303dea" class="cell" data-execution_count="4">
+<div id="2c67ea1a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'age'</span>,<span class="st">'income'</span>,<span class="st">'loan_amount'</span>,<span class="st">'loan_term'</span>,<span class="st">'credit_score'</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">'employment_years'</span>,<span class="st">'debt_to_income'</span>,<span class="st">'previous_defaults'</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[features]</span>
@@ -498,7 +503,7 @@ Decision Tree AUC:       0.6018</code></pre>
 </section>
 <section id="roc-curve-comparison" class="level2">
 <h2 class="anchored" data-anchor-id="roc-curve-comparison">ROC curve comparison</h2>
-<div id="5d69cb00" class="cell" data-execution_count="5">
+<div id="3d3dfeac" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model, X_t, name, color <span class="kw">in</span> [</span>
@@ -557,7 +562,7 @@ Decision Tree AUC:       0.6018</code></pre>
 </section>
 <section id="scorecard-points-scale" class="level2">
 <h2 class="anchored" data-anchor-id="scorecard-points-scale">Scorecard points scale</h2>
-<div id="a0860403" class="cell" data-execution_count="6">
+<div id="d13acaa8" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert LR coefficients to scorecard points (standard 200-50 scale)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pdo <span class="op">=</span> <span class="dv">50</span>       <span class="co"># points to double odds</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>base_score <span class="op">=</span> <span class="dv">200</span></span>
