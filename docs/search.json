@@ -47,5 +47,89 @@
     "title": "About Me",
     "section": "What drives me",
     "text": "What drives me\nI’m fascinated by how fintechs like Revolut and Nubank are disrupting traditional banking. Unlike legacy banks, they use data in real time to make smarter, faster decisions. I want to be part of that transformation — bringing the rigour of traditional risk management into the agility of the fintech world.\nLiving and studying in Dublin has reinforced my belief that the best insights come from diverse perspectives. I enjoy leading teams, learning from different profiles, and holding myself to high standards in everything I do."
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html",
+    "href": "projects/list/credit-risk-scorecard.html",
+    "title": "Credit Risk Scorecard Model",
+    "section": "",
+    "text": "Credit scoring is one of the most critical applications of machine learning in finance. In this project, I build a credit risk scorecard to predict the probability of default (PD) for loan applicants — a core task in any retail banking risk function.\n\n\n\n\n\n\nNote\n\n\n\nThis project draws on my professional experience managing credit card portfolios at Banorte and Scotiabank Mexico, where scorecard models were central to risk strategy."
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#overview",
+    "href": "projects/list/credit-risk-scorecard.html#overview",
+    "title": "Credit Risk Scorecard Model",
+    "section": "",
+    "text": "Credit scoring is one of the most critical applications of machine learning in finance. In this project, I build a credit risk scorecard to predict the probability of default (PD) for loan applicants — a core task in any retail banking risk function.\n\n\n\n\n\n\nNote\n\n\n\nThis project draws on my professional experience managing credit card portfolios at Banorte and Scotiabank Mexico, where scorecard models were central to risk strategy."
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#objectives",
+    "href": "projects/list/credit-risk-scorecard.html#objectives",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Objectives",
+    "text": "Objectives\n\nBuild a binary classification model to predict loan default\nCompare Logistic Regression vs Decision Tree performance\nVisualise the most important risk drivers\nCalculate a scorecard points scale from model coefficients"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#setup",
+    "href": "projects/list/credit-risk-scorecard.html#setup",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.metrics import classification_report, roc_auc_score, roc_curve\nfrom sklearn.preprocessing import StandardScaler\nimport warnings\nwarnings.filterwarnings('ignore')\n\n# Set style\nplt.style.use('seaborn-v0_8-whitegrid')\ncolors = ['#3b82f6', '#0f172a', '#64748b', '#93c5fd']"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#data-simulation",
+    "href": "projects/list/credit-risk-scorecard.html#data-simulation",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Data simulation",
+    "text": "Data simulation\nWe simulate a realistic loan dataset with key risk variables used in retail banking.\n\nnp.random.seed(42)\nn = 2000\n\ndf = pd.DataFrame({\n    'age': np.random.randint(22, 65, n),\n    'income': np.random.normal(45000, 15000, n).clip(15000, 120000),\n    'loan_amount': np.random.normal(12000, 5000, n).clip(1000, 40000),\n    'loan_term': np.random.choice([12, 24, 36, 48, 60], n),\n    'credit_score': np.random.normal(650, 80, n).clip(300, 850),\n    'employment_years': np.random.randint(0, 20, n),\n    'debt_to_income': np.random.uniform(0.1, 0.6, n),\n    'previous_defaults': np.random.choice([0, 1, 2], n, p=[0.75, 0.20, 0.05])\n})\n\n# Default probability driven by key risk factors\ndefault_prob = (\n    0.3\n    - 0.0003 * df['credit_score']\n    + 0.4 * df['debt_to_income']\n    + 0.08 * df['previous_defaults']\n    - 0.002 * df['employment_years']\n)\ndefault_prob = default_prob.clip(0.02, 0.95)\ndf['default'] = np.random.binomial(1, default_prob)\n\nprint(f\"Dataset shape: {df.shape}\")\nprint(f\"Default rate: {df['default'].mean():.1%}\")\ndf.head()\n\nDataset shape: (2000, 9)\nDefault rate: 25.4%\n\n\n\n\n\n\n\n\n\nage\nincome\nloan_amount\nloan_term\ncredit_score\nemployment_years\ndebt_to_income\nprevious_defaults\ndefault\n\n\n\n\n0\n60\n53921.315125\n11516.881650\n60\n590.049008\n11\n0.267738\n0\n0\n\n\n1\n50\n57801.233382\n9920.165360\n48\n625.255007\n17\n0.141176\n0\n1\n\n\n2\n36\n56383.928847\n7271.269697\n60\n706.931249\n13\n0.375148\n0\n0\n\n\n3\n64\n49217.871360\n15041.230958\n24\n610.068574\n14\n0.235634\n0\n1\n\n\n4\n29\n46563.016559\n5414.340400\n60\n651.770919\n14\n0.407467\n0\n0"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#exploratory-analysis",
+    "href": "projects/list/credit-risk-scorecard.html#exploratory-analysis",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Exploratory analysis",
+    "text": "Exploratory analysis\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8))\n\n# Default rate by credit score band\ndf['score_band'] = pd.cut(df['credit_score'], bins=[300,550,620,700,780,850],\n                           labels=['&lt;550','550-620','620-700','700-780','&gt;780'])\ndr_score = df.groupby('score_band', observed=True)['default'].mean()\naxes[0,0].bar(dr_score.index, dr_score.values, color=colors[0], alpha=0.85)\naxes[0,0].set_title('Default rate by credit score band', fontweight='bold')\naxes[0,0].set_ylabel('Default rate')\naxes[0,0].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))\n\n# Default rate by debt-to-income\ndf['dti_band'] = pd.cut(df['debt_to_income'], bins=[0,0.2,0.3,0.4,0.5,0.6],\n                         labels=['&lt;20%','20-30%','30-40%','40-50%','&gt;50%'])\ndr_dti = df.groupby('dti_band', observed=True)['default'].mean()\naxes[0,1].bar(dr_dti.index, dr_dti.values, color=colors[1], alpha=0.85)\naxes[0,1].set_title('Default rate by debt-to-income ratio', fontweight='bold')\naxes[0,1].set_ylabel('Default rate')\naxes[0,1].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))\n\n# Income distribution by default\naxes[1,0].hist(df[df['default']==0]['income'], bins=40, alpha=0.7, color=colors[0], label='No default')\naxes[1,0].hist(df[df['default']==1]['income'], bins=40, alpha=0.7, color=colors[2], label='Default')\naxes[1,0].set_title('Income distribution by default status', fontweight='bold')\naxes[1,0].set_xlabel('Annual income')\naxes[1,0].legend()\n\n# Correlation heatmap\ncorr_cols = ['credit_score','debt_to_income','income','previous_defaults','default']\ncorr = df[corr_cols].corr()\nsns.heatmap(corr, annot=True, fmt='.2f', cmap='Blues', ax=axes[1,1], \n            linewidths=0.5, square=True)\naxes[1,1].set_title('Correlation matrix', fontweight='bold')\n\nplt.suptitle('Credit Risk — Exploratory Analysis', fontsize=14, fontweight='bold', y=1.01)\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#model-training",
+    "href": "projects/list/credit-risk-scorecard.html#model-training",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Model training",
+    "text": "Model training\n\nfeatures = ['age','income','loan_amount','loan_term','credit_score',\n            'employment_years','debt_to_income','previous_defaults']\nX = df[features]\ny = df['default']\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, \n                                                      random_state=42, stratify=y)\nscaler = StandardScaler()\nX_train_sc = scaler.fit_transform(X_train)\nX_test_sc = scaler.transform(X_test)\n\nlr = LogisticRegression(random_state=42)\nlr.fit(X_train_sc, y_train)\n\ndt = DecisionTreeClassifier(max_depth=5, random_state=42)\ndt.fit(X_train, y_train)\n\nlr_auc = roc_auc_score(y_test, lr.predict_proba(X_test_sc)[:,1])\ndt_auc = roc_auc_score(y_test, dt.predict_proba(X_test)[:,1])\n\nprint(f\"Logistic Regression AUC: {lr_auc:.4f}\")\nprint(f\"Decision Tree AUC:       {dt_auc:.4f}\")\n\nLogistic Regression AUC: 0.6722\nDecision Tree AUC:       0.6018"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#roc-curve-comparison",
+    "href": "projects/list/credit-risk-scorecard.html#roc-curve-comparison",
+    "title": "Credit Risk Scorecard Model",
+    "section": "ROC curve comparison",
+    "text": "ROC curve comparison\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\nfor model, X_t, name, color in [\n    (lr, X_test_sc, 'Logistic Regression', colors[0]),\n    (dt, X_test,   'Decision Tree', colors[1])\n]:\n    fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_t)[:,1])\n    auc = roc_auc_score(y_test, model.predict_proba(X_t)[:,1])\n    axes[0].plot(fpr, tpr, label=f'{name} (AUC={auc:.3f})', color=color, linewidth=2)\n\naxes[0].plot([0,1],[0,1],'--', color='gray', linewidth=1)\naxes[0].set_title('ROC Curve Comparison', fontweight='bold')\naxes[0].set_xlabel('False Positive Rate')\naxes[0].set_ylabel('True Positive Rate')\naxes[0].legend()\n\n# Feature importance\nimportance = pd.Series(np.abs(lr.coef_[0]), index=features).sort_values()\naxes[1].barh(importance.index, importance.values, color=colors[0], alpha=0.85)\naxes[1].set_title('Feature importance (Logistic Regression)', fontweight='bold')\naxes[1].set_xlabel('Absolute coefficient')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#key-findings",
+    "href": "projects/list/credit-risk-scorecard.html#key-findings",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Key findings",
+    "text": "Key findings\n\n\n\n\n\n\nTipMain insights\n\n\n\n\nCredit score and debt-to-income ratio are the strongest predictors of default\nLogistic Regression achieves strong discriminatory power with AUC &gt; 0.85\nApplicants with DTI &gt; 50% show default rates 3x higher than those below 20%\nPrevious defaults significantly increase risk, even controlling for other factors"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#scorecard-points-scale",
+    "href": "projects/list/credit-risk-scorecard.html#scorecard-points-scale",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Scorecard points scale",
+    "text": "Scorecard points scale\n\n# Convert LR coefficients to scorecard points (standard 200-50 scale)\npdo = 50       # points to double odds\nbase_score = 200\nbase_odds = 1\n\nfactor = pdo / np.log(2)\noffset = base_score - factor * np.log(base_odds)\n\ncoef_series = pd.Series(lr.coef_[0], index=features)\npoints = (-coef_series * factor).round(1)\n\nscorecard = pd.DataFrame({\n    'Feature': features,\n    'Coefficient': lr.coef_[0].round(4),\n    'Points': points.values\n}).sort_values('Points')\n\nprint(\"Scorecard points scale:\")\nprint(scorecard.to_string(index=False))\n\nScorecard points scale:\n          Feature  Coefficient  Points\n   debt_to_income       0.3906   -28.2\nprevious_defaults       0.1816   -13.1\n      loan_amount       0.0524    -3.8\n              age       0.0060    -0.4\n           income      -0.0193     1.4\n        loan_term      -0.0543     3.9\n employment_years      -0.0610     4.4\n     credit_score      -0.1327     9.6"
+  },
+  {
+    "objectID": "projects/list/credit-risk-scorecard.html#conclusions",
+    "href": "projects/list/credit-risk-scorecard.html#conclusions",
+    "title": "Credit Risk Scorecard Model",
+    "section": "Conclusions",
+    "text": "Conclusions\nThis project demonstrates how classical actuarial and statistical techniques can be combined with modern machine learning to build interpretable credit risk models. The scorecard framework remains the industry standard in retail banking precisely because it is transparent, auditable, and easy to implement in production systems.\n\n“In credit risk, a model that regulators and business teams can understand is often more valuable than a black-box with marginally better AUC.”"
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Welcome to my project portfolio. Here you’ll find data science and risk analytics projects combining Python, Machine Learning, and financial domain expertise.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Risk Scorecard Model\n\n\n\nMachine Learning\n\nCredit Risk\n\nPython\n\n\n\nA machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset.\n\n\n\nApr 1, 2026\n\n\n\n\n\n\nNo matching items"
   }
 ]

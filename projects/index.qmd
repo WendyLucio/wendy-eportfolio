@@ -1,0 +1,11 @@
+---
+title: "Projects"
+listing:
+  contents: list
+  type: grid
+  sort: "date desc"
+  categories: true
+  fields: [image, title, description, categories, date]
+---
+
+Welcome to my project portfolio. Here you'll find data science and risk analytics projects combining **Python**, **Machine Learning**, and **financial domain expertise**.
