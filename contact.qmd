@@ -1,0 +1,38 @@
+---
+title: "Contact & References"
+---
+
+## Get in touch
+
+I'm always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.
+
+::: {.callout-tip title="Currently open to opportunities"}
+I am actively looking for **internships and graduate roles** in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from **Summer 2026**.
+:::
+
+---
+
+## Contact information
+
+| Channel | Details |
+|---------|---------|
+| {{< fa envelope >}} Email | wendy.lucio@mail.dcu.ie |
+| {{< fa brands linkedin >}} LinkedIn | [linkedin.com/in/wendymlp](https://www.linkedin.com/in/wendymlp){target="_blank"} |
+| {{< fa brands github >}} GitHub | [github.com/WendyLucio](https://github.com/WendyLucio){target="_blank"} |
+| {{< fa location-dot >}} Location | Dublin, Ireland |
+
+---
+
+## References
+
+Available upon request. I have professional references from:
+
+- **Banorte** — Senior leadership in the Credit Risk division
+- **Scotiabank Mexico** — Risk management team
+- **DCU** — Academic supervisor, MSc Business Analytics
+
+---
+
+## Let's connect
+
+Whether you want to discuss a project, explore a collaboration, or just talk about the future of credit risk in fintech — I'd love to hear from you.

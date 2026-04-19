@@ -14,6 +14,10 @@ website:
         href: about.qmd
       - text: "Projects"
         href: projects/index.qmd
+      - text: "Reflection"
+        href: reflection.qmd
+      - text: "Contact"
+        href: contact.qmd
     right:
       - text: "CV"
         href: cv/wendy-lucio-cv.pdf
