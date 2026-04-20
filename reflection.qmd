@@ -56,4 +56,4 @@ The fear of doing something new will always be there. But this module taught me 
 - Deepen my Python skills in survival analysis and credit loss forecasting
 - Apply for risk analytics roles at fintechs in Ireland and the UK
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/fpFCBqVxFPc" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/G8LLOR8MVLA" frameborder="0" allowfullscreen></iframe>
