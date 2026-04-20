@@ -35,9 +35,9 @@ website:
 format:
   html:
     theme:
-      - flatly
+      - litera
       - styles.scss
     toc: true
     include-after-body: 
-      file: scroll.js
+      text: "<script src='scroll.js'></script>"
     

@@ -43,7 +43,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c53aecb7bf6878bd62e17d3ab4936282.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-79ac1487eee31bca0956ac543a3cb375.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -182,13 +182,13 @@ ul.task-list li input[type="checkbox"] {
 <section id="get-in-touch" class="level2">
 <h2 class="anchored" data-anchor-id="get-in-touch">Get in touch</h2>
 <p>I’m always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Currently open to opportunities">
+<div class="callout callout-style-default callout-note callout-titled" title="{{< fa briefcase >}} Currently open to opportunities">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Currently open to opportunities
+<span class="screen-reader-only">Note</span><i class="fa-solid fa-briefcase" aria-label="briefcase"></i> Currently open to opportunities
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -659,35 +659,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
   </div>
 </footer>
-document.addEventListener("DOMContentLoaded", function () {
-
-  const elements = document.querySelectorAll("h2, h3, p, table, .callout, img");
-
-  
-
-  elements.forEach(el =&gt; el.classList.add("scroll-reveal"));
-
-
-
-  const observer = new IntersectionObserver((entries) =&gt; {
-
-    entries.forEach(entry =&gt; {
-
-      if (entry.isIntersecting) {
-
-        entry.target.classList.add("visible");
-
-      }
-
-    });
-
-  }, { threshold: 0.1 });
-
-
-
-  elements.forEach(el =&gt; observer.observe(el));
-
-});
+<script src="scroll.js"></script>
 
 
 

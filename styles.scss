@@ -93,3 +93,50 @@ h2 {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Ancho completo */
+.quarto-container {
+  max-width: 100% !important;
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+}
+
+.column-body {
+  max-width: 100% !important;
+}
+
+#quarto-document-content {
+  max-width: 100% !important;
+}
+
+/* Callouts como tarjetas */
+.callout {
+  border: none !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #f0f4ff, #e8f0fe) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1) !important;
+  padding: 1.5rem !important;
+}
+
+.callout-header {
+  background-color: transparent !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.callout-body {
+  color: #1e293b !important;
+}
+
+.callout .callout-icon::before {
+  color: #3b82f6 !important;
+}
+
+.callout-icon {
+  display: none !important;
+}
+
+.callout {
+  border-left: 4px solid #3b82f6 !important;
+}

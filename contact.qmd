@@ -6,7 +6,7 @@ title: "Contact & References"
 
 I'm always open to conversations about credit risk, fintech, data analytics, or potential opportunities. Feel free to reach out through any of the channels below.
 
-::: {.callout-tip title="Currently open to opportunities"}
+::: {.callout-note title="{{< fa briefcase >}} Currently open to opportunities"}
 I am actively looking for **internships and graduate roles** in risk analytics, credit risk, or data science at fintechs and financial institutions in Ireland and the UK. My availability is from **Summer 2026**.
 :::
 

@@ -1,6 +1,7 @@
 ---
 title: "Wendy Lucio"
 image: images/LinkedInPicture.jpg
+toc: false
 about:
   template: trestles
   image-width: 14em
