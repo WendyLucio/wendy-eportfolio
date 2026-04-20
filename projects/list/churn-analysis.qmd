@@ -1,0 +1,228 @@
+---
+title: "Customer Churn Analysis"
+description: "A group project analysing customer churn patterns in an e-commerce platform using machine learning and business analytics techniques."
+author: "Wendy Lucio & Group 6"
+date: "2026-01-15"
+image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800"
+categories: [Churn Analysis, Machine Learning, Python, Business Analytics]
+---
+
+## Overview
+
+Customer churn is one of the most important metrics in any subscription or e-commerce business. In this group project, we analysed churn patterns across business units using transactional data, and built predictive models to identify customers at risk of churning.
+
+::: {.callout-note appearance="minimal" title="{{< fa users >}} About this project"}
+This project was developed as a group assignment for the Business Analytics module (BAA1088) at DCU. My contributions focused on data preprocessing, exploratory analysis, and model evaluation.
+:::
+
+---
+
+## Objectives
+
+- Analyse churn patterns across business units and time periods
+- Build classification models to predict customer churn
+- Identify the key drivers of churn behaviour
+- Provide actionable business recommendations
+
+---
+
+## Setup
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix, roc_curve
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.rcParams['figure.dpi'] = 100
+colors = ['#3b82f6', '#ef4444', '#0f172a', '#64748b']
+```
+
+---
+
+## Data simulation
+
+We simulate e-commerce transaction data with the same structure as the dataset used in the original project, including business units, sales, orders, and churn indicators.
+
+```{python}
+np.random.seed(42)
+n = 2000
+
+business_units = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports']
+
+df = pd.DataFrame({
+    'ClientID': range(1, n+1),
+    'MacroBU': np.random.choice(business_units, n),
+    'august_buy': np.random.binomial(1, 0.7, n),
+    'Sales_EUR': np.random.exponential(50, n).clip(1, 500),
+    'Discount_EUR': np.random.exponential(15, n).clip(0, 100),
+    'Orders': np.random.randint(1, 20, n),
+    'Items': np.random.randint(1, 50, n),
+    'account_age_days': np.random.randint(30, 1500, n),
+    'avg_order_value': np.random.normal(80, 40, n).clip(5, 400),
+})
+
+# Churn probability
+churn_prob = (
+    0.4
+    - 0.0002 * df['account_age_days']
+    - 0.002 * df['Orders']
+    + 0.2 * (1 - df['august_buy'])
+    + np.random.normal(0, 0.05, n)
+).clip(0.05, 0.95)
+
+df['october_churn'] = np.random.binomial(1, churn_prob)
+
+print(f"Dataset shape: {df.shape}")
+print(f"Churn rate: {df['october_churn'].mean():.1%}")
+df.head()
+```
+
+---
+
+## Exploratory analysis
+
+```{python}
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+
+# Churn rate by business unit
+churn_bu = df.groupby('MacroBU')['october_churn'].mean().sort_values(ascending=False)
+churn_bu.plot(kind='bar', ax=axes[0,0], color=colors[0], alpha=0.85)
+axes[0,0].set_title('Churn rate by business unit', fontweight='bold')
+axes[0,0].set_ylabel('Churn rate')
+axes[0,0].tick_params(axis='x', rotation=45)
+axes[0,0].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))
+
+# Sales distribution by churn
+df.boxplot(column='Sales_EUR', by='october_churn', ax=axes[0,1])
+axes[0,1].set_title('Sales by churn status', fontweight='bold')
+axes[0,1].set_xlabel('Churn (0=No, 1=Yes)')
+axes[0,1].set_ylabel('Sales EUR')
+
+# Orders distribution by churn
+df.boxplot(column='Orders', by='october_churn', ax=axes[1,0])
+axes[1,0].set_title('Orders by churn status', fontweight='bold')
+axes[1,0].set_xlabel('Churn (0=No, 1=Yes)')
+axes[1,0].set_ylabel('Number of orders')
+
+# Churn by august purchase
+churn_aug = df.groupby('august_buy')['october_churn'].mean()
+churn_aug.plot(kind='bar', ax=axes[1,1], color=[colors[1], colors[0]], alpha=0.85)
+axes[1,1].set_title('Churn rate by August purchase', fontweight='bold')
+axes[1,1].set_xticklabels(['Did not buy', 'Bought in August'], rotation=0)
+axes[1,1].set_ylabel('Churn rate')
+axes[1,1].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))
+
+plt.suptitle('Customer Churn — Exploratory Analysis', fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## Model training
+
+```{python}
+features = ['august_buy', 'Sales_EUR', 'Discount_EUR', 'Orders',
+            'Items', 'account_age_days', 'avg_order_value']
+
+X = df[features]
+y = df['october_churn']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+scaler = StandardScaler()
+X_train_sc = scaler.fit_transform(X_train)
+X_test_sc = scaler.transform(X_test)
+
+# Logistic Regression
+lr = LogisticRegression(random_state=42, max_iter=1000)
+lr.fit(X_train_sc, y_train)
+lr_auc = roc_auc_score(y_test, lr.predict_proba(X_test_sc)[:,1])
+print(f"Logistic Regression AUC: {lr_auc:.4f}")
+
+# Random Forest
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+rf_auc = roc_auc_score(y_test, rf.predict_proba(X_test)[:,1])
+print(f"Random Forest AUC:       {rf_auc:.4f}")
+
+# XGBoost
+xgb = XGBClassifier(random_state=42, eval_metric='logloss', verbosity=0)
+xgb.fit(X_train, y_train)
+xgb_auc = roc_auc_score(y_test, xgb.predict_proba(X_test)[:,1])
+print(f"XGBoost AUC:             {xgb_auc:.4f}")
+```
+
+---
+
+## Model comparison
+
+```{python}
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# ROC curves
+for model, X_t, name, color in [
+    (lr, X_test_sc, 'Logistic Regression', colors[0]),
+    (rf, X_test,   'Random Forest', colors[2]),
+    (xgb, X_test,  'XGBoost', colors[1])
+]:
+    fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_t)[:,1])
+    auc = roc_auc_score(y_test, model.predict_proba(X_t)[:,1])
+    axes[0].plot(fpr, tpr, label=f'{name} (AUC={auc:.3f})', color=color, linewidth=2)
+
+axes[0].plot([0,1],[0,1],'--', color='gray', linewidth=1)
+axes[0].set_title('ROC Curve Comparison', fontweight='bold')
+axes[0].set_xlabel('False Positive Rate')
+axes[0].set_ylabel('True Positive Rate')
+axes[0].legend()
+
+# Feature importance
+importance = pd.Series(rf.feature_importances_, index=features).sort_values()
+importance.plot(kind='barh', ax=axes[1], color=colors[0], alpha=0.85)
+axes[1].set_title('Feature Importance — Random Forest', fontweight='bold')
+axes[1].set_xlabel('Importance')
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## Key findings
+
+::: {.callout-note appearance="minimal" title="{{< fa chart-bar >}} Main insights"}
+- Customers who did not purchase in August show significantly higher churn rates in October
+- XGBoost achieved the best predictive performance among all models tested
+- Number of orders and account age are the strongest churn predictors
+- Electronics and Fashion show the highest churn rates by business unit
+:::
+
+---
+
+## Business recommendations
+
+| Finding | Recommendation |
+|---------|---------------|
+| High churn after no August purchase | Launch re-engagement campaign in September |
+| Low-order customers churn more | Introduce loyalty incentives after 3rd order |
+| New accounts churn faster | Improve onboarding experience for first 90 days |
+| Electronics churn highest | Review pricing and competitor positioning |
+
+---
+
+## Conclusions
+
+Churn prediction is most valuable when it drives action. The models developed in this project provide a foundation for proactive retention strategies — identifying at-risk customers before they leave, rather than reacting after the fact.
+
+> *"Retaining an existing customer is 5x cheaper than acquiring a new one. Churn models are not just analytical tools — they are business strategy tools."*

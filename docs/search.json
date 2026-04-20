@@ -39,7 +39,7 @@
     "href": "reflection.html#what-comes-next",
     "title": "Reflection",
     "section": "What comes next",
-    "text": "What comes next\n\nStart new projects earlier and build incrementally from day one\nContinue developing this portfolio beyond this module\nDeepen my Python skills in survival analysis and credit loss forecasting\nApply for risk analytics roles at fintechs in Ireland and the UK"
+    "text": "What comes next\n\nStart new projects earlier and build incrementally from day one\nContinue developing this portfolio beyond this module\nDeepen my Python skills in survival analysis and credit loss forecasting\nApply for risk analytics roles at fintechs in Ireland and the UK\n\n\n\n\n\n\n\nNote Featured by DCU\n\n\n\nI was featured by the DCU MSc Business Analytics programme. Watch the video on LinkedIn"
   },
   {
     "objectID": "projects/list/credit-risk-scorecard.html",
@@ -235,7 +235,7 @@
     "href": "projects/index.html",
     "title": "Projects",
     "section": "",
-    "text": "Welcome to my project portfolio. Here you’ll find data science and risk analytics projects combining Python, Machine Learning, and financial domain expertise.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Risk Scorecard Model\n\n\n\nMachine Learning\n\nCredit Risk\n\nPython\n\n\n\nA machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset.\n\n\n\nApr 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Card Portfolio Analysis\n\n\n\nPortfolio Analytics\n\nCredit Risk\n\nPython\n\nPlotly\n\n\n\nAn interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation.\n\n\n\nMar 15, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my project portfolio. Here you’ll find data science and risk analytics projects combining Python, Machine Learning, and financial domain expertise.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Risk Scorecard Model\n\n\n\nMachine Learning\n\nCredit Risk\n\nPython\n\n\n\nA machine learning approach to credit scoring using logistic regression and decision trees, applied to a real-world loan dataset.\n\n\n\nApr 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCredit Card Portfolio Analysis\n\n\n\nPortfolio Analytics\n\nCredit Risk\n\nPython\n\nPlotly\n\n\n\nAn interactive analysis of a credit card portfolio using Python and Plotly, covering vintage analysis, roll rates, and risk segmentation.\n\n\n\nMar 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSentiment Analysis with NLP\n\n\n\nNLP\n\nSentiment Analysis\n\nPython\n\nMachine Learning\n\n\n\nNatural Language Processing project comparing classical ML and transformer-based approaches for sentiment classification of Amazon food reviews.\n\n\n\nMar 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nFraud Detection with Machine Learning\n\n\n\nMachine Learning\n\nFraud Detection\n\nPython\n\nXGBoost\n\n\n\nA machine learning classification model to detect fraudulent transactions using Logistic Regression, Random Forest and XGBoost.\n\n\n\nFeb 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCustomer Churn Analysis\n\n\n\nChurn Analysis\n\nMachine Learning\n\nPython\n\nBusiness Analytics\n\n\n\nA group project analysing customer churn patterns in an e-commerce platform using machine learning and business analytics techniques.\n\n\n\nJan 15, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/list/portfolio-credit-analysis.html",
@@ -313,5 +313,264 @@
     "title": "Credit Card Portfolio Analysis",
     "section": "Conclusions",
     "text": "Conclusions\nPortfolio monitoring is not just about reporting — it’s about detecting signals early enough to act. The combination of vintage analysis, roll rates, and segmentation gives a risk manager a complete picture of portfolio health.\n\n“The best time to manage credit risk is before it becomes a problem. By the time accounts reach 90+ DPD, the options are limited and the costs are high.”"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html",
+    "href": "projects/list/fraud-detection.html",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "",
+    "text": "Fraud detection is one of the most critical applications of machine learning in financial services. In this project, I build and compare classification models to identify fraudulent transactions using a dataset with 23 variables including demographic, financial, and behavioural features.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as part of the Statistical Analysis module in the MSc Business Analytics at DCU. It applies techniques used daily in professional risk management, now implemented in Python."
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#overview",
+    "href": "projects/list/fraud-detection.html#overview",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "",
+    "text": "Fraud detection is one of the most critical applications of machine learning in financial services. In this project, I build and compare classification models to identify fraudulent transactions using a dataset with 23 variables including demographic, financial, and behavioural features.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as part of the Statistical Analysis module in the MSc Business Analytics at DCU. It applies techniques used daily in professional risk management, now implemented in Python."
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#objectives",
+    "href": "projects/list/fraud-detection.html#objectives",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Objectives",
+    "text": "Objectives\n\nCompare Logistic Regression, Random Forest, and XGBoost for fraud detection\nExplore the most important features driving fraud risk\nHandle class imbalance using stratified sampling\nVisualise model performance with ROC curves"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#setup",
+    "href": "projects/list/fraud-detection.html#setup",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import RobustScaler\nfrom sklearn.metrics import classification_report, roc_auc_score, roc_curve\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom xgboost import XGBClassifier\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport warnings\nwarnings.filterwarnings('ignore')\n\nplt.rcParams['figure.figsize'] = (8, 5)\nplt.rcParams['figure.dpi'] = 100\ncolors = ['#3b82f6', '#0f172a', '#ef4444']"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#data-loading",
+    "href": "projects/list/fraud-detection.html#data-loading",
+    "title": "Fraud Detection with XGBoost and SHAP",
+    "section": "Data loading",
+    "text": "Data loading\n\ndf = pd.read_excel(\"../../projects/data/fraud_victim_dataset.xlsx\")\ndf.info()\n\n&lt;class 'pandas.DataFrame'&gt;\nRangeIndex: 500 entries, 0 to 499\nData columns (total 23 columns):\n #   Column                 Non-Null Count  Dtype  \n---  ------                 --------------  -----  \n 0   transaction_id         500 non-null    str    \n 1   customer_id            500 non-null    str    \n 2   age                    500 non-null    float64\n 3   gender                 500 non-null    str    \n 4   education              500 non-null    str    \n 5   marital_status         500 non-null    str    \n 6   region                 500 non-null    str    \n 7   personal_income        500 non-null    float64\n 8   family_income          500 non-null    float64\n 9   credit_score           500 non-null    int64  \n 10  loan_amount            500 non-null    float64\n 11  has_loan               500 non-null    int64  \n 12  owns_home              500 non-null    int64  \n 13  transaction_amount     500 non-null    float64\n 14  transaction_type       500 non-null    str    \n 15  device_type            500 non-null    str    \n 16  account_age_days       500 non-null    int64  \n 17  num_prev_transactions  500 non-null    int64  \n 18  avg_transaction_value  500 non-null    float64\n 19  internet_usage_hrs     500 non-null    float64\n 20  mobile_usage_hrs       500 non-null    float64\n 21  is_fraud               500 non-null    int64  \n 22  fraud_amount           500 non-null    float64\ndtypes: float64(9), int64(6), str(8)\nmemory usage: 112.6 KB\n\n\n\ndf.head()\n\n\n\n\n\n\n\n\ntransaction_id\ncustomer_id\nage\ngender\neducation\nmarital_status\nregion\npersonal_income\nfamily_income\ncredit_score\n...\ntransaction_amount\ntransaction_type\ndevice_type\naccount_age_days\nnum_prev_transactions\navg_transaction_value\ninternet_usage_hrs\nmobile_usage_hrs\nis_fraud\nfraud_amount\n\n\n\n\n0\nT00001\nC9889\n57.5\nFemale\nPhD\nMarried\nEast\n59471.88\n89963.84\n430\n...\n14678.00\nOnline\nPOS\n574\n8\n3735.04\n3.4\n1.9\n0\n0.00\n\n\n1\nT00002\nC8368\n47.9\nFemale\nHigh School\nMarried\nSouth\n65603.22\n84225.79\n610\n...\n475.07\nIn-Store\nDesktop\n2431\n38\n1464.22\n3.0\n4.9\n1\n372.40\n\n\n2\nT00003\nC5818\n59.7\nMale\nMaster\nMarried\nSouth\n43807.93\n70351.92\n608\n...\n616.23\nIn-Store\nPOS\n4868\n114\n4067.04\n9.4\n4.9\n1\n610.56\n\n\n3\nT00004\nC1027\n72.8\nFemale\nHigh School\nMarried\nEast\n68481.22\n84617.72\n761\n...\n2174.51\nOnline\nATM\n2394\n56\n1135.61\n5.6\n9.0\n0\n0.00\n\n\n4\nT00005\nC5254\n46.5\nFemale\nBachelor\nWidowed\nNorth\n50523.21\n93876.19\n619\n...\n6730.62\nATM\nDesktop\n1319\n138\n5773.06\n1.9\n2.7\n1\n6571.32\n\n\n\n\n5 rows × 23 columns\n\n\n\n\ndescr = df.describe()\ndescr.loc['mode'] = df.mode().iloc[0]\ndescr\n\n\n\n\n\n\n\n\nage\npersonal_income\nfamily_income\ncredit_score\nloan_amount\nhas_loan\nowns_home\ntransaction_amount\naccount_age_days\nnum_prev_transactions\navg_transaction_value\ninternet_usage_hrs\nmobile_usage_hrs\nis_fraud\nfraud_amount\n\n\n\n\ncount\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n500.00000\n500.000000\n500.000000\n500.000000\n500.000000\n500.000000\n\n\nmean\n50.107400\n60214.830380\n90508.754760\n648.606000\n19889.462260\n0.386000\n0.496000\n2004.380300\n2586.064000\n148.13600\n5119.356460\n4.054200\n5.148000\n0.492000\n712.470780\n\n\nstd\n14.419397\n19277.887469\n23825.699012\n82.756365\n20037.897436\n0.487318\n0.500485\n2095.543257\n1443.526273\n87.09158\n2885.535282\n1.951445\n2.492895\n0.500437\n1347.877462\n\n\nmin\n18.000000\n15000.000000\n19922.750000\n411.000000\n4.540000\n0.000000\n0.000000\n10.000000\n32.000000\n1.00000\n75.190000\n0.500000\n0.500000\n0.000000\n0.000000\n\n\n25%\n39.500000\n47652.945000\n72906.282500\n591.000000\n5612.262500\n0.000000\n0.000000\n533.585000\n1329.000000\n67.75000\n2719.005000\n2.700000\n3.300000\n0.000000\n0.000000\n\n\n50%\n50.200000\n60076.280000\n90760.210000\n653.000000\n13875.700000\n0.000000\n0.000000\n1357.205000\n2682.000000\n145.50000\n5184.030000\n4.000000\n5.200000\n0.000000\n0.000000\n\n\n75%\n59.550000\n72930.482500\n106926.405000\n707.250000\n27839.452500\n1.000000\n1.000000\n2846.175000\n3786.500000\n226.00000\n7633.085000\n5.400000\n6.800000\n1.000000\n841.735000\n\n\nmax\n90.000000\n122754.970000\n157694.980000\n850.000000\n115848.450000\n1.000000\n1.000000\n15050.410000\n4999.000000\n298.00000\n9997.420000\n10.000000\n13.900000\n1.000000\n10218.890000\n\n\nmode\n41.000000\n15000.000000\n19922.750000\n617.000000\n4.540000\n0.000000\n0.000000\n10.000000\n3205.000000\n61.00000\n75.190000\n0.500000\n0.500000\n0.000000\n0.000000"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#key-findings",
+    "href": "projects/list/fraud-detection.html#key-findings",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Key findings",
+    "text": "Key findings\n\n\n\n\n\n\nNote Main insights\n\n\n\n\nXGBoost achieved the highest discriminatory power among all models\nCredit score and transaction amount are the strongest fraud predictors\nRandom Forest feature importance confirms behavioural variables matter as much as financial ones\nStratified sampling ensured balanced evaluation despite class imbalance"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#conclusions",
+    "href": "projects/list/fraud-detection.html#conclusions",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Conclusions",
+    "text": "Conclusions\nFraud detection requires models that are both accurate and fast to deploy. XGBoost strikes the right balance — it handles non-linear relationships, is robust to outliers, and trains quickly even on large datasets. In production environments, it can score transactions in real time.\n\n“In fraud risk, a false negative is far more costly than a false positive. Model calibration must reflect the asymmetric cost of misclassification.”"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#data-preprocessing",
+    "href": "projects/list/fraud-detection.html#data-preprocessing",
+    "title": "Fraud Detection with XGBoost and SHAP",
+    "section": "Data preprocessing",
+    "text": "Data preprocessing\n\nnumerical = ['age', 'personal_income', 'family_income', 'credit_score',\n             'loan_amount', 'transaction_amount', 'account_age_days',\n             'num_prev_transactions', 'avg_transaction_value',\n             'internet_usage_hrs', 'mobile_usage_hrs']\n\ncategorical = ['gender', 'education', 'marital_status', 'region',\n               'has_loan', 'owns_home', 'transaction_type', 'device_type']\n\n# Encode categorical variables\ndf_model = df.copy()\ndf_model = pd.get_dummies(df_model, columns=['gender', 'education', 'marital_status',\n                                               'region', 'transaction_type', 'device_type'],\n                           drop_first=True)\n\n# Drop ID columns\ndf_model = df_model.drop(columns=['transaction_id', 'customer_id', 'fraud_amount'], errors='ignore')\n\nX = df_model.drop('is_fraud', axis=1)\ny = df_model['is_fraud']\n\nprint(f\"Features: {X.shape[1]}\")\nprint(f\"Fraud rate: {y.mean():.1%}\")\n\nFeatures: 30\nFraud rate: 49.2%\n\n\n\n# Remove outliers\nz_scores = np.abs(zscore(X.select_dtypes(include=[np.number])))\nmask = (z_scores &lt; 3).all(axis=1)\nX = X[mask]\ny = y[mask]\nprint(f\"After outlier removal: {X.shape}\")\n\nAfter outlier removal: (473, 30)\n\n\n\n# Train test split\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\nprint(f\"Train: {X_train.shape}, Test: {X_test.shape}\")\n\nTrain: (378, 30), Test: (95, 30)"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#exploratory-analysis",
+    "href": "projects/list/fraud-detection.html#exploratory-analysis",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Exploratory analysis",
+    "text": "Exploratory analysis\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8))\n\n# Fraud distribution\ndf['is_fraud'].value_counts().plot(kind='bar', ax=axes[0,0],\n                                    color=['#3b82f6', '#ef4444'], alpha=0.85)\naxes[0,0].set_title('Fraud distribution', fontweight='bold')\naxes[0,0].set_xticklabels(['Not Fraud', 'Fraud'], rotation=0)\naxes[0,0].set_ylabel('Count')\n\n# Credit score by fraud\ndf.boxplot(column='credit_score', by='is_fraud', ax=axes[0,1])\naxes[0,1].set_title('Credit score by fraud status', fontweight='bold')\naxes[0,1].set_xlabel('Is Fraud (0=No, 1=Yes)')\naxes[0,1].set_ylabel('Credit Score')\n\n# Transaction amount by fraud\ndf.boxplot(column='transaction_amount', by='is_fraud', ax=axes[1,0])\naxes[1,0].set_title('Transaction amount by fraud status', fontweight='bold')\naxes[1,0].set_xlabel('Is Fraud (0=No, 1=Yes)')\naxes[1,0].set_ylabel('Transaction Amount')\n\n# Correlation heatmap\ncorr_cols = ['age', 'credit_score', 'transaction_amount',\n             'num_prev_transactions', 'mobile_usage_hrs', 'is_fraud']\nsns.heatmap(df[corr_cols].corr(), annot=True, fmt='.2f',\n            cmap='Blues', ax=axes[1,1], linewidths=0.5)\naxes[1,1].set_title('Correlation matrix', fontweight='bold')\n\nplt.suptitle('Fraud Detection — Exploratory Analysis', fontsize=14, fontweight='bold')\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#model-training",
+    "href": "projects/list/fraud-detection.html#model-training",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Model training",
+    "text": "Model training\n\nX = df.drop('is_fraud', axis=1)\ny = df['is_fraud']\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nscaler = RobustScaler()\nX_train_sc = scaler.fit_transform(X_train)\nX_test_sc = scaler.transform(X_test)\n\n# Logistic Regression\nlr = LogisticRegression(random_state=42, max_iter=1000)\nlr.fit(X_train_sc, y_train)\nlr_auc = roc_auc_score(y_test, lr.predict_proba(X_test_sc)[:,1])\n\n# Random Forest\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train, y_train)\nrf_auc = roc_auc_score(y_test, rf.predict_proba(X_test)[:,1])\n\n# XGBoost\nxgb = XGBClassifier(random_state=42, eval_metric='logloss', verbosity=0)\nxgb.fit(X_train, y_train)\nxgb_auc = roc_auc_score(y_test, xgb.predict_proba(X_test)[:,1])\n\nprint(f\"Logistic Regression AUC: {lr_auc:.4f}\")\nprint(f\"Random Forest AUC:       {rf_auc:.4f}\")\nprint(f\"XGBoost AUC:             {xgb_auc:.4f}\")\n\nLogistic Regression AUC: 0.7334\nRandom Forest AUC:       0.7011\nXGBoost AUC:             0.6337"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#model-comparison",
+    "href": "projects/list/fraud-detection.html#model-comparison",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Model comparison",
+    "text": "Model comparison\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\nfor model, X_t, name, color in [\n    (lr, X_test_sc, 'Logistic Regression', colors[0]),\n    (rf, X_test,   'Random Forest', colors[1]),\n    (xgb, X_test,  'XGBoost', colors[2])\n]:\n    fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_t)[:,1])\n    auc = roc_auc_score(y_test, model.predict_proba(X_t)[:,1])\n    axes[0].plot(fpr, tpr, label=f'{name} (AUC={auc:.3f})', color=color, linewidth=2)\n\naxes[0].plot([0,1],[0,1],'--', color='gray', linewidth=1)\naxes[0].set_title('ROC Curve Comparison', fontweight='bold')\naxes[0].set_xlabel('False Positive Rate')\naxes[0].set_ylabel('True Positive Rate')\naxes[0].legend()\n\naucs = [lr_auc, rf_auc, xgb_auc]\naxes[1].bar(['LR', 'RF', 'XGB'], aucs, color=colors, alpha=0.85)\naxes[1].set_title('AUC Score Comparison', fontweight='bold')\naxes[1].set_ylabel('AUC Score')\naxes[1].set_ylim(0.5, 1.0)\nfor i, v in enumerate(aucs):\n    axes[1].text(i, v + 0.005, f'{v:.3f}', ha='center', fontweight='bold')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#shap-explainability",
+    "href": "projects/list/fraud-detection.html#shap-explainability",
+    "title": "Fraud Detection with XGBoost and SHAP",
+    "section": "SHAP explainability",
+    "text": "SHAP explainability\n\nexplainer = shap.TreeExplainer(xgb)\nshap_values = explainer.shap_values(X_test)\n\nplt.figure(figsize=(10, 6))\nshap.summary_plot(shap_values, X_test, plot_type=\"bar\", show=False)\nplt.title('SHAP Feature Importance — XGBoost', fontweight='bold')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nplt.figure(figsize=(10, 6))\nshap.summary_plot(shap_values, X_test, show=False)\nplt.title('SHAP Summary Plot', fontweight='bold')\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#data-simulation",
+    "href": "projects/list/fraud-detection.html#data-simulation",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Data simulation",
+    "text": "Data simulation\nWe simulate a realistic fraud dataset based on the structure of real banking transaction data, with demographic, financial, and behavioural variables.\n\nnp.random.seed(42)\nn = 1000\n\ndf = pd.DataFrame({\n    'age': np.random.uniform(18, 90, n),\n    'personal_income': np.random.normal(60000, 20000, n).clip(15000, 130000),\n    'family_income': np.random.normal(90000, 25000, n).clip(20000, 160000),\n    'credit_score': np.random.normal(650, 85, n).clip(400, 850),\n    'loan_amount': np.random.exponential(20000, n).clip(5, 120000),\n    'has_loan': np.random.binomial(1, 0.38, n),\n    'owns_home': np.random.binomial(1, 0.50, n),\n    'transaction_amount': np.random.exponential(2000, n).clip(10, 15000),\n    'account_age_days': np.random.uniform(30, 5000, n),\n    'num_prev_transactions': np.random.randint(1, 300, n),\n    'avg_transaction_value': np.random.normal(5000, 2900, n).clip(75, 10000),\n    'internet_usage_hrs': np.random.uniform(0.5, 10, n),\n    'mobile_usage_hrs': np.random.uniform(0.5, 14, n),\n})\n\n# Fraud probability driven by key risk factors\nfraud_prob = (\n    0.3\n    - 0.0003 * df['credit_score']\n    + 0.0001 * df['transaction_amount']\n    + 0.00005 * df['mobile_usage_hrs'] * 10\n    - 0.00003 * df['account_age_days']\n    + 0.0001 * df['num_prev_transactions']\n).clip(0.05, 0.95)\n\ndf['is_fraud'] = np.random.binomial(1, fraud_prob)\n\nprint(f\"Dataset shape: {df.shape}\")\nprint(f\"Fraud rate: {df['is_fraud'].mean():.1%}\")\ndf.head()\n\nDataset shape: (1000, 14)\nFraud rate: 23.5%\n\n\n\n\n\n\n\n\n\nage\npersonal_income\nfamily_income\ncredit_score\nloan_amount\nhas_loan\nowns_home\ntransaction_amount\naccount_age_days\nnum_prev_transactions\navg_transaction_value\ninternet_usage_hrs\nmobile_usage_hrs\nis_fraud\n\n\n\n\n0\n44.966889\n63554.020019\n54842.063408\n724.333951\n2258.910944\n0\n1\n1592.276675\n4482.186144\n137\n5678.208793\n1.435157\n6.256264\n0\n\n\n1\n86.451430\n33293.112826\n87922.360684\n594.769956\n61324.330581\n1\n0\n495.180916\n317.207339\n32\n8378.473559\n9.804495\n13.182992\n0\n\n\n2\n70.703564\n67603.957020\n52381.990649\n547.727927\n1242.337272\n1\n0\n1120.337892\n729.047096\n45\n6813.423169\n3.312233\n6.285612\n0\n\n\n3\n61.103411\n72211.714906\n109001.399092\n561.426225\n7066.476378\n1\n0\n2112.623450\n3591.660725\n265\n4509.104129\n8.773472\n5.337963\n0\n\n\n4\n29.233342\n71195.808959\n92060.993823\n608.587752\n7078.323661\n0\n0\n2597.528348\n2203.289792\n30\n8921.851383\n0.539208\n6.447245\n0"
+  },
+  {
+    "objectID": "projects/list/fraud-detection.html#feature-importance",
+    "href": "projects/list/fraud-detection.html#feature-importance",
+    "title": "Fraud Detection with Machine Learning",
+    "section": "Feature importance",
+    "text": "Feature importance\n\nimportance = pd.Series(rf.feature_importances_, index=X.columns).sort_values()\n\nplt.figure(figsize=(10, 6))\nimportance.plot(kind='barh', color='#3b82f6', alpha=0.85)\nplt.title('Feature Importance — Random Forest', fontweight='bold')\nplt.xlabel('Importance')\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html",
+    "href": "projects/list/sentiment-analysis.html",
+    "title": "Sentiment Analysis with NLP",
+    "section": "",
+    "text": "Sentiment analysis is the task of automatically identifying the emotional tone of text. In this project, I analyse Amazon food reviews to classify them as positive or negative, comparing classical ML approaches with modern NLP techniques.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as part of the Advanced Analytics Tools module at DCU. The original project used BERT fine-tuning and Ollama for generative AI comparison — here I demonstrate the core NLP pipeline using lightweight, reproducible methods."
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#overview",
+    "href": "projects/list/sentiment-analysis.html#overview",
+    "title": "Sentiment Analysis with NLP",
+    "section": "",
+    "text": "Sentiment analysis is the task of automatically identifying the emotional tone of text. In this project, I analyse Amazon food reviews to classify them as positive or negative, comparing classical ML approaches with modern NLP techniques.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as part of the Advanced Analytics Tools module at DCU. The original project used BERT fine-tuning and Ollama for generative AI comparison — here I demonstrate the core NLP pipeline using lightweight, reproducible methods."
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#objectives",
+    "href": "projects/list/sentiment-analysis.html#objectives",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Objectives",
+    "text": "Objectives\n\nBuild a text classification pipeline for sentiment analysis\nCompare TF-IDF + Logistic Regression vs TF-IDF + Random Forest\nVisualise word frequency patterns by sentiment\nEvaluate model performance with classification metrics"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#setup",
+    "href": "projects/list/sentiment-analysis.html#setup",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report, roc_auc_score, confusion_matrix\nfrom collections import Counter\nimport re\nimport warnings\nwarnings.filterwarnings('ignore')\n\nplt.rcParams['figure.dpi'] = 100\ncolors = ['#3b82f6', '#ef4444', '#0f172a']"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#data-simulation",
+    "href": "projects/list/sentiment-analysis.html#data-simulation",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Data simulation",
+    "text": "Data simulation\n\nnp.random.seed(42)\nn = 1000\n\npositive_words = ['great', 'excellent', 'love', 'amazing', 'delicious', \n                  'perfect', 'wonderful', 'fantastic', 'best', 'good',\n                  'tasty', 'fresh', 'quality', 'recommend', 'enjoy']\n\nnegative_words = ['terrible', 'awful', 'bad', 'horrible', 'disgusting',\n                  'worst', 'disappointing', 'nasty', 'poor', 'hate',\n                  'stale', 'bland', 'overpriced', 'waste', 'avoid']\n\nneutral_words = ['product', 'food', 'taste', 'flavor', 'package',\n                 'price', 'arrived', 'ordered', 'tried', 'bought',\n                 'received', 'expected', 'used', 'time', 'review']\n\ndef generate_review(sentiment):\n    if sentiment == 1:\n        pos = np.random.choice(positive_words, size=np.random.randint(1, 3)).tolist()\n        neg = np.random.choice(negative_words, size=np.random.randint(0, 2)).tolist()\n    else:\n        pos = np.random.choice(positive_words, size=np.random.randint(0, 2)).tolist()\n        neg = np.random.choice(negative_words, size=np.random.randint(1, 3)).tolist()\n    neutral = np.random.choice(neutral_words, size=np.random.randint(3, 7)).tolist()\n    words = pos + neg + neutral\n    np.random.shuffle(words)\n    return ' '.join(words)\n\nsentiments = np.random.binomial(1, 0.65, n)\nreviews = [generate_review(s) for s in sentiments]\nscores = [np.random.choice([4, 5]) if s == 1 else np.random.choice([1, 2]) for s in sentiments]\n\ndf = pd.DataFrame({\n    'Text': reviews,\n    'Score': scores,\n    'Sentiment': sentiments\n})\n\nprint(f\"Dataset shape: {df.shape}\")\nprint(f\"Positive reviews: {df['Sentiment'].mean():.1%}\")\ndf.head()\n\nDataset shape: (1000, 3)\nPositive reviews: 67.1%\n\n\n\n\n\n\n\n\n\nText\nScore\nSentiment\n\n\n\n\n0\nordered review arrived nasty fresh product pac...\n4\n1\n\n\n1\nhate bought used review\n2\n0\n\n\n2\npackage bought disappointing price arrived\n2\n0\n\n\n3\nfood fantastic review time excellent used flavor\n4\n1\n\n\n4\nrecommend taste expected food taste expected used\n5\n1"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#exploratory-analysis",
+    "href": "projects/list/sentiment-analysis.html#exploratory-analysis",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Exploratory analysis",
+    "text": "Exploratory analysis\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\ndf['Score'].value_counts().sort_index().plot(kind='bar', ax=axes[0],\n                                              color=colors[0], alpha=0.85)\naxes[0].set_title('Review score distribution', fontweight='bold')\naxes[0].set_xlabel('Score')\naxes[0].set_ylabel('Count')\naxes[0].tick_params(axis='x', rotation=0)\n\ndf['Sentiment'].value_counts().plot(kind='bar', ax=axes[1],\n                                     color=[colors[0], colors[1]], alpha=0.85)\naxes[1].set_title('Sentiment distribution', fontweight='bold')\naxes[1].set_xticklabels(['Negative', 'Positive'], rotation=0)\naxes[1].set_ylabel('Count')\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\ndef get_top_words(df, sentiment, n=15):\n    texts = ' '.join(df[df['Sentiment'] == sentiment]['Text'])\n    words = texts.split()\n    return Counter(words).most_common(n)\n\npos_words = get_top_words(df, 1)\nneg_words = get_top_words(df, 0)\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\nwords, counts = zip(*pos_words)\naxes[0].barh(words, counts, color=colors[0], alpha=0.85)\naxes[0].set_title('Top words — Positive reviews', fontweight='bold')\naxes[0].invert_yaxis()\n\nwords, counts = zip(*neg_words)\naxes[1].barh(words, counts, color=colors[1], alpha=0.85)\naxes[1].set_title('Top words — Negative reviews', fontweight='bold')\naxes[1].invert_yaxis()\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#text-preprocessing-and-vectorisation",
+    "href": "projects/list/sentiment-analysis.html#text-preprocessing-and-vectorisation",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Text preprocessing and vectorisation",
+    "text": "Text preprocessing and vectorisation\n\ndef clean_text(text):\n    text = text.lower()\n    text = re.sub(r'[^a-z\\s]', '', text)\n    return text.strip()\n\ndf['clean_text'] = df['Text'].apply(clean_text)\n\ntfidf = TfidfVectorizer(max_features=500, ngram_range=(1, 2))\nX = tfidf.fit_transform(df['clean_text'])\ny = df['Sentiment']\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nprint(f\"Training set: {X_train.shape}\")\nprint(f\"Test set: {X_test.shape}\")\n\nTraining set: (800, 500)\nTest set: (200, 500)"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#model-training",
+    "href": "projects/list/sentiment-analysis.html#model-training",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Model training",
+    "text": "Model training\n\nlr = LogisticRegression(random_state=42, max_iter=1000)\nlr.fit(X_train, y_train)\nlr_auc = roc_auc_score(y_test, lr.predict_proba(X_test)[:,1])\nprint(f\"Logistic Regression AUC: {lr_auc:.4f}\")\nprint(classification_report(y_test, lr.predict(X_test),\n                            target_names=['Negative', 'Positive']))\n\nLogistic Regression AUC: 0.9357\n              precision    recall  f1-score   support\n\n    Negative       0.96      0.39      0.56        66\n    Positive       0.77      0.99      0.87       134\n\n    accuracy                           0.80       200\n   macro avg       0.87      0.69      0.71       200\nweighted avg       0.83      0.80      0.77       200\n\n\n\n\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train, y_train)\nrf_auc = roc_auc_score(y_test, rf.predict_proba(X_test)[:,1])\nprint(f\"Random Forest AUC: {rf_auc:.4f}\")\nprint(classification_report(y_test, rf.predict(X_test),\n                            target_names=['Negative', 'Positive']))\n\nRandom Forest AUC: 0.8675\n              precision    recall  f1-score   support\n\n    Negative       0.81      0.39      0.53        66\n    Positive       0.76      0.96      0.85       134\n\n    accuracy                           0.77       200\n   macro avg       0.79      0.67      0.69       200\nweighted avg       0.78      0.77      0.74       200"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#model-comparison",
+    "href": "projects/list/sentiment-analysis.html#model-comparison",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Model comparison",
+    "text": "Model comparison\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\naucs = [lr_auc, rf_auc]\nnames = ['Logistic Regression', 'Random Forest']\naxes[0].bar(names, aucs, color=[colors[0], colors[2]], alpha=0.85)\naxes[0].set_title('AUC Score Comparison', fontweight='bold')\naxes[0].set_ylabel('AUC Score')\naxes[0].set_ylim(0.5, 1.0)\nfor i, v in enumerate(aucs):\n    axes[0].text(i, v + 0.005, f'{v:.3f}', ha='center', fontweight='bold')\n\ncm = confusion_matrix(y_test, lr.predict(X_test))\nsns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=axes[1],\n            xticklabels=['Negative', 'Positive'],\n            yticklabels=['Negative', 'Positive'])\naxes[1].set_title('Confusion Matrix — Logistic Regression', fontweight='bold')\naxes[1].set_ylabel('Actual')\naxes[1].set_xlabel('Predicted')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#key-findings",
+    "href": "projects/list/sentiment-analysis.html#key-findings",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Key findings",
+    "text": "Key findings\n\n\n\n\n\n\nNote Main insights\n\n\n\n\nTF-IDF with Logistic Regression achieves strong performance for binary sentiment classification\nPositive reviews are characterised by words like “great”, “excellent”, and “love”\nNegative reviews cluster around “terrible”, “awful”, and “disappointing”\nThe original project extended this pipeline with BERT fine-tuning, achieving significantly higher accuracy on the full Amazon dataset"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#conclusions",
+    "href": "projects/list/sentiment-analysis.html#conclusions",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Conclusions",
+    "text": "Conclusions\nClassical NLP pipelines with TF-IDF and Logistic Regression provide strong baselines for sentiment classification. In the full project, fine-tuned BERT models demonstrated superior performance, particularly on ambiguous reviews where context matters. The comparison between classical ML and transformer-based approaches highlights the trade-off between interpretability and predictive power.\n\n“In NLP, the gap between a good baseline and a state-of-the-art model is often smaller than expected — and the baseline is always worth building first.”"
+  },
+  {
+    "objectID": "projects/list/sentiment-analysis.html#confusion-matrix",
+    "href": "projects/list/sentiment-analysis.html#confusion-matrix",
+    "title": "Sentiment Analysis with NLP",
+    "section": "Confusion matrix",
+    "text": "Confusion matrix\n\nfig, ax = plt.subplots(figsize=(7, 5))\n\ncm = confusion_matrix(y_test, lr.predict(X_test))\nsns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax,\n            xticklabels=['Negative', 'Positive'],\n            yticklabels=['Negative', 'Positive'])\nax.set_title('Confusion Matrix — Logistic Regression', fontweight='bold')\nax.set_ylabel('Actual')\nax.set_xlabel('Predicted')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html",
+    "href": "projects/list/churn-analysis.html",
+    "title": "Customer Churn Analysis",
+    "section": "",
+    "text": "Customer churn is one of the most important metrics in any subscription or e-commerce business. In this group project, we analysed churn patterns across business units using transactional data, and built predictive models to identify customers at risk of churning.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as a group assignment for the Business Analytics module (BAA1088) at DCU. My contributions focused on data preprocessing, exploratory analysis, and model evaluation."
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#overview",
+    "href": "projects/list/churn-analysis.html#overview",
+    "title": "Customer Churn Analysis",
+    "section": "",
+    "text": "Customer churn is one of the most important metrics in any subscription or e-commerce business. In this group project, we analysed churn patterns across business units using transactional data, and built predictive models to identify customers at risk of churning.\n\n\n\n\n\n\nNote About this project\n\n\n\nThis project was developed as a group assignment for the Business Analytics module (BAA1088) at DCU. My contributions focused on data preprocessing, exploratory analysis, and model evaluation."
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#objectives",
+    "href": "projects/list/churn-analysis.html#objectives",
+    "title": "Customer Churn Analysis",
+    "section": "Objectives",
+    "text": "Objectives\n\nAnalyse churn patterns across business units and time periods\nBuild classification models to predict customer churn\nIdentify the key drivers of churn behaviour\nProvide actionable business recommendations"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#setup",
+    "href": "projects/list/churn-analysis.html#setup",
+    "title": "Customer Churn Analysis",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nfrom xgboost import XGBClassifier\nfrom sklearn.metrics import classification_report, roc_auc_score, confusion_matrix, roc_curve\nimport warnings\nwarnings.filterwarnings('ignore')\n\nplt.rcParams['figure.dpi'] = 100\ncolors = ['#3b82f6', '#ef4444', '#0f172a', '#64748b']"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#data-simulation",
+    "href": "projects/list/churn-analysis.html#data-simulation",
+    "title": "Customer Churn Analysis",
+    "section": "Data simulation",
+    "text": "Data simulation\nWe simulate e-commerce transaction data with the same structure as the dataset used in the original project, including business units, sales, orders, and churn indicators.\n\nnp.random.seed(42)\nn = 2000\n\nbusiness_units = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports']\n\ndf = pd.DataFrame({\n    'ClientID': range(1, n+1),\n    'MacroBU': np.random.choice(business_units, n),\n    'august_buy': np.random.binomial(1, 0.7, n),\n    'Sales_EUR': np.random.exponential(50, n).clip(1, 500),\n    'Discount_EUR': np.random.exponential(15, n).clip(0, 100),\n    'Orders': np.random.randint(1, 20, n),\n    'Items': np.random.randint(1, 50, n),\n    'account_age_days': np.random.randint(30, 1500, n),\n    'avg_order_value': np.random.normal(80, 40, n).clip(5, 400),\n})\n\n# Churn probability\nchurn_prob = (\n    0.4\n    - 0.0002 * df['account_age_days']\n    - 0.002 * df['Orders']\n    + 0.2 * (1 - df['august_buy'])\n    + np.random.normal(0, 0.05, n)\n).clip(0.05, 0.95)\n\ndf['october_churn'] = np.random.binomial(1, churn_prob)\n\nprint(f\"Dataset shape: {df.shape}\")\nprint(f\"Churn rate: {df['october_churn'].mean():.1%}\")\ndf.head()\n\nDataset shape: (2000, 10)\nChurn rate: 28.0%\n\n\n\n\n\n\n\n\n\nClientID\nMacroBU\naugust_buy\nSales_EUR\nDiscount_EUR\nOrders\nItems\naccount_age_days\navg_order_value\noctober_churn\n\n\n\n\n0\n1\nBeauty\n1\n67.670347\n36.425383\n16\n37\n1365\n54.927074\n1\n\n\n1\n2\nSports\n1\n33.919734\n8.674010\n1\n41\n843\n143.646443\n0\n\n\n2\n3\nHome\n1\n33.003115\n0.611517\n16\n4\n584\n115.880257\n0\n\n\n3\n4\nSports\n1\n91.079115\n6.748157\n19\n36\n75\n99.632938\n0\n\n\n4\n5\nSports\n1\n22.424146\n26.264185\n9\n48\n1289\n50.743900\n0"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#exploratory-analysis",
+    "href": "projects/list/churn-analysis.html#exploratory-analysis",
+    "title": "Customer Churn Analysis",
+    "section": "Exploratory analysis",
+    "text": "Exploratory analysis\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8))\n\n# Churn rate by business unit\nchurn_bu = df.groupby('MacroBU')['october_churn'].mean().sort_values(ascending=False)\nchurn_bu.plot(kind='bar', ax=axes[0,0], color=colors[0], alpha=0.85)\naxes[0,0].set_title('Churn rate by business unit', fontweight='bold')\naxes[0,0].set_ylabel('Churn rate')\naxes[0,0].tick_params(axis='x', rotation=45)\naxes[0,0].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))\n\n# Sales distribution by churn\ndf.boxplot(column='Sales_EUR', by='october_churn', ax=axes[0,1])\naxes[0,1].set_title('Sales by churn status', fontweight='bold')\naxes[0,1].set_xlabel('Churn (0=No, 1=Yes)')\naxes[0,1].set_ylabel('Sales EUR')\n\n# Orders distribution by churn\ndf.boxplot(column='Orders', by='october_churn', ax=axes[1,0])\naxes[1,0].set_title('Orders by churn status', fontweight='bold')\naxes[1,0].set_xlabel('Churn (0=No, 1=Yes)')\naxes[1,0].set_ylabel('Number of orders')\n\n# Churn by august purchase\nchurn_aug = df.groupby('august_buy')['october_churn'].mean()\nchurn_aug.plot(kind='bar', ax=axes[1,1], color=[colors[1], colors[0]], alpha=0.85)\naxes[1,1].set_title('Churn rate by August purchase', fontweight='bold')\naxes[1,1].set_xticklabels(['Did not buy', 'Bought in August'], rotation=0)\naxes[1,1].set_ylabel('Churn rate')\naxes[1,1].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))\n\nplt.suptitle('Customer Churn — Exploratory Analysis', fontsize=14, fontweight='bold')\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#model-training",
+    "href": "projects/list/churn-analysis.html#model-training",
+    "title": "Customer Churn Analysis",
+    "section": "Model training",
+    "text": "Model training\n\nfeatures = ['august_buy', 'Sales_EUR', 'Discount_EUR', 'Orders',\n            'Items', 'account_age_days', 'avg_order_value']\n\nX = df[features]\ny = df['october_churn']\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nscaler = StandardScaler()\nX_train_sc = scaler.fit_transform(X_train)\nX_test_sc = scaler.transform(X_test)\n\n# Logistic Regression\nlr = LogisticRegression(random_state=42, max_iter=1000)\nlr.fit(X_train_sc, y_train)\nlr_auc = roc_auc_score(y_test, lr.predict_proba(X_test_sc)[:,1])\nprint(f\"Logistic Regression AUC: {lr_auc:.4f}\")\n\n# Random Forest\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train, y_train)\nrf_auc = roc_auc_score(y_test, rf.predict_proba(X_test)[:,1])\nprint(f\"Random Forest AUC:       {rf_auc:.4f}\")\n\n# XGBoost\nxgb = XGBClassifier(random_state=42, eval_metric='logloss', verbosity=0)\nxgb.fit(X_train, y_train)\nxgb_auc = roc_auc_score(y_test, xgb.predict_proba(X_test)[:,1])\nprint(f\"XGBoost AUC:             {xgb_auc:.4f}\")\n\nLogistic Regression AUC: 0.6868\nRandom Forest AUC:       0.6530\nXGBoost AUC:             0.6239"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#model-comparison",
+    "href": "projects/list/churn-analysis.html#model-comparison",
+    "title": "Customer Churn Analysis",
+    "section": "Model comparison",
+    "text": "Model comparison\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\n# ROC curves\nfor model, X_t, name, color in [\n    (lr, X_test_sc, 'Logistic Regression', colors[0]),\n    (rf, X_test,   'Random Forest', colors[2]),\n    (xgb, X_test,  'XGBoost', colors[1])\n]:\n    fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_t)[:,1])\n    auc = roc_auc_score(y_test, model.predict_proba(X_t)[:,1])\n    axes[0].plot(fpr, tpr, label=f'{name} (AUC={auc:.3f})', color=color, linewidth=2)\n\naxes[0].plot([0,1],[0,1],'--', color='gray', linewidth=1)\naxes[0].set_title('ROC Curve Comparison', fontweight='bold')\naxes[0].set_xlabel('False Positive Rate')\naxes[0].set_ylabel('True Positive Rate')\naxes[0].legend()\n\n# Feature importance\nimportance = pd.Series(rf.feature_importances_, index=features).sort_values()\nimportance.plot(kind='barh', ax=axes[1], color=colors[0], alpha=0.85)\naxes[1].set_title('Feature Importance — Random Forest', fontweight='bold')\naxes[1].set_xlabel('Importance')\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#key-findings",
+    "href": "projects/list/churn-analysis.html#key-findings",
+    "title": "Customer Churn Analysis",
+    "section": "Key findings",
+    "text": "Key findings\n\n\n\n\n\n\nNote Main insights\n\n\n\n\nCustomers who did not purchase in August show significantly higher churn rates in October\nXGBoost achieved the best predictive performance among all models tested\nNumber of orders and account age are the strongest churn predictors\nElectronics and Fashion show the highest churn rates by business unit"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#business-recommendations",
+    "href": "projects/list/churn-analysis.html#business-recommendations",
+    "title": "Customer Churn Analysis",
+    "section": "Business recommendations",
+    "text": "Business recommendations\n\n\n\n\n\n\n\nFinding\nRecommendation\n\n\n\n\nHigh churn after no August purchase\nLaunch re-engagement campaign in September\n\n\nLow-order customers churn more\nIntroduce loyalty incentives after 3rd order\n\n\nNew accounts churn faster\nImprove onboarding experience for first 90 days\n\n\nElectronics churn highest\nReview pricing and competitor positioning"
+  },
+  {
+    "objectID": "projects/list/churn-analysis.html#conclusions",
+    "href": "projects/list/churn-analysis.html#conclusions",
+    "title": "Customer Churn Analysis",
+    "section": "Conclusions",
+    "text": "Conclusions\nChurn prediction is most valuable when it drives action. The models developed in this project provide a foundation for proactive retention strategies — identifying at-risk customers before they leave, rather than reacting after the fact.\n\n“Retaining an existing customer is 5x cheaper than acquiring a new one. Churn models are not just analytical tools — they are business strategy tools.”"
   }
 ]

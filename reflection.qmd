@@ -56,4 +56,6 @@ The fear of doing something new will always be there. But this module taught me 
 - Deepen my Python skills in survival analysis and credit loss forecasting
 - Apply for risk analytics roles at fintechs in Ireland and the UK
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/G8LLOR8MVLA" frameborder="0" allowfullscreen></iframe>
+::: {.callout-note appearance="minimal" title="{{< fa brands linkedin >}} Featured by DCU"}
+I was featured by the DCU MSc Business Analytics programme. [Watch the video on LinkedIn](https://www.linkedin.com/posts/dcu-msc-in-business-analytics_mscbusinessanalytics-dcubusinessschool-businessdcu-activity-7437524774425296896-swoW){target="_blank"}
+:::

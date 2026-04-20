@@ -3,7 +3,10 @@
     "listing": "/projects/index.html",
     "items": [
       "/projects/list/credit-risk-scorecard.html",
-      "/projects/list/portfolio-credit-analysis.html"
+      "/projects/list/portfolio-credit-analysis.html",
+      "/projects/list/sentiment-analysis.html",
+      "/projects/list/fraud-detection.html",
+      "/projects/list/churn-analysis.html"
     ]
   }
 ]
