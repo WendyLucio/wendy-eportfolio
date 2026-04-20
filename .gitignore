@@ -5,4 +5,6 @@ _pycache_/
 *.pyc
 .env
 
+
 **/*.quarto_ipynb
+projects/data/Reviews.csv
