@@ -70,4 +70,4 @@ Building this portfolio has also reinforced something I believe deeply: **high s
 
 A talk that has shaped how I think about the future of credit risk and fintech:
 
-{{< video https://www.youtube.com/watch?v=Y5Z9URmcNfI >}}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fpFCBqVxFPc" frameborder="0" allowfullscreen></iframe>

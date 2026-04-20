@@ -16,7 +16,7 @@ I am actively looking for **internships and graduate roles** in risk analytics, 
 
 | Channel | Details |
 |---------|---------|
-| {{< fa envelope >}} Email | wendy.lucio@mail.dcu.ie |
+| {{< fa envelope >}} Email | wendy.m.lucio@gmail.com |
 | {{< fa brands linkedin >}} LinkedIn | [linkedin.com/in/wendymlp](https://www.linkedin.com/in/wendymlp){target="_blank"} |
 | {{< fa brands github >}} GitHub | [github.com/WendyLucio](https://github.com/WendyLucio){target="_blank"} |
 | {{< fa location-dot >}} Location | Dublin, Ireland |
